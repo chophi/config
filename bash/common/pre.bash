@@ -105,3 +105,4 @@ function _source_bash_files {
 alias source-pre-bashes='_source_bash_files 0'
 alias source-other-bashes='_source_bash_files 1'
 alias source-post-bashes='_source_bash_files 2'
+alias sync_bashrc='source ${CONFIG_ROOT_DIR}/bash/${MY_HOST_SYSTEM}/init.bash'

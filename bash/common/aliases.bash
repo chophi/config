@@ -50,4 +50,4 @@ function bulletin_push {
     fi
 }
 
-alias source-env='. ${CONFIG_ROOT_DIR}/env/source-env.sh'
+alias source-env='. ${CONFIG_ROOT_DIR}/env/source-env.bash'
