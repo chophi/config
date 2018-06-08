@@ -17,7 +17,7 @@ function _add_to_variable {
             fi
         fi
     done
-    export $2=$tmp_var
+    export $2="$tmp_var"
 }
 
 alias head-to-variable='_add_to_variable to-head '

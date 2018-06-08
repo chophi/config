@@ -10,10 +10,13 @@ bash_common_list=(
     "where"
 )
 
+function echo_and_run {
+    echo $@
+    $@
+}
+
 for name in ${bash_common_list[@]}; do
-    if [ -f "$HOME/.${name}" ]; then
-        echo rm "HOME/.${name}"
-    fi
+    echo_and_run rm "$HOME/.${name}"
 done
 
 rm -f $HOME/.bashrc
