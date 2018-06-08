@@ -74,6 +74,14 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
+if [ -d "/usr/local/opt/coreutils/libexec/gnubin" ]; then
+    export PATH=/usr/local/opt/coreutils/libexec/gnubin:$PATH
+    alias ls='ls --color=auto'
+else
+    alias ls='ls -G'
+fi
+
+
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
