@@ -102,6 +102,12 @@ function _source_bash_files {
     done
 }
 
+function source-if-exist {
+    if [ -f "$1" ]; then
+        source "$1"
+    fi
+}
+
 alias source-pre-bashes='_source_bash_files 0'
 alias source-other-bashes='_source_bash_files 1'
 alias source-post-bashes='_source_bash_files 2'

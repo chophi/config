@@ -1,17 +1,3 @@
-# ~/.bashrc: executed by bash(1) for non-login shells.
-# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
-# for examples
-
-# If not running interactively, don't do anything
-[ -z "$PS1" ] && return
-
-export CONFIG_ROOT_DIR=$(dirname $(dirname $(dirname `realpath ${BASH_SOURCE[0]}`)))
-
-source ${CONFIG_ROOT_DIR}/bash/common/pre.bash
-source-pre-bashes
-source-other-bashes
-source-post-bashes
-
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
 HISTCONTROL=ignoreboth
@@ -99,39 +85,3 @@ if ! shopt -oq posix; then
        . /etc/bash_completion
    fi
 fi
-
-append-to-path "$HOME/.rvm/bin" # Add RVM to PATH for scripting
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
-
-head-to-path "~/.emacs-pkg"
-append-to-path "~/bin:~/bin/binfile:~/bin/common-scripts:~/bin/common-scripts/envs:~/bin/private-scripts"
-
-# import some repo variables
-#. ~/envsetup/repo-vars
-
-append-to-variable INFOPATH "/usr/local/texlive/2015/texmf-dist/doc/info"
-append-to-variable MANPATH "/usr/local/texlive/2015/texmf-dist/doc/man"
-append-to-path "/usr/local/texlive/2015/bin/x86_64-linux:/sbin:/usr/sbin:/usr/share-2/bin"
-append-to-path "~/bin/common-scripts/android-decompile"
-append-to-path "~/build/android-studio/bin"
-
-export USE_CCACHE=1
-export CCACHE_DIR=/local/ccache
-
-head-to-path "~/.platform_script"
-
-if [ $TERM == "eterm-color" ]; then
-    export PATH=${PATH//\/home\/local\/ANT\/ayliu\/software\/jdk1.8.0_91\/\/bin://}
-fi
-
-unset JAVA_HOME
-
-append-to-path "~/software/racket/bin/"
-append-to-path "~/software/swift-dev/bin"
-
-alias repo-init-android-o='repo init -u https://aosp.tuna.tsinghua.edu.cn/platform/manifest -b android-8.0.0_r13'
-alias export-repo-url='export REPO_URL=https://mirrors.tuna.tsinghua.edu.cn/git/git-repo/ && export PATH=~/.platform_script/tsinghua-mirror-repo:$PATH'
-
-append-to-path "~/git-repo/depot_tools"
-append-to-variable LD_LIBRARY_PATH "$HOME/bin/lib"
-append-to-variable MANPATH "~/git-repo/depot_tools/man/"
