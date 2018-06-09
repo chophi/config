@@ -16,7 +16,7 @@ function echo_and_run {
 }
 
 for name in ${bash_common_list[@]}; do
-    echo_and_run rm "$HOME/.${name}"
+    echo_and_run rm -f "$HOME/.${name}"
 done
 
 rm -f $HOME/.bashrc

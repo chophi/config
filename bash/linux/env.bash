@@ -12,10 +12,6 @@ _head_to_path_variable=(
     $HOME/.emacs-pkg
 )
 
-for name in ${_head_to_path_variable[@]}; do
-    head-to-path $name
-done
-
 _append_to_path_variable=(
     /sbin
     /usr/sbin
@@ -32,9 +28,17 @@ _append_to_path_variable=(
     $HOME/git-repo/depot_tools
     /usr/local/texlive/2015/bin/x86_64-linux
 )
+
+for name in ${_head_to_path_variable[@]}; do
+    head-to-path $name
+done
+
 for name in ${_append_to_path_variable[@]}; do
     append-to-path $name
 done
+
+unset _append_to_path_variable
+unset _head_to_path_variable
 
 if [ "$TERM" != "eterm-color" ]; then
     source-if-exist "${HOME}/.iterm2_shell_integration.bash"
@@ -42,5 +46,3 @@ fi
 
 source-if-exist "${HOME}/.bashrc_gitignore"
 source-if-exist "$HOME/.rvm/scripts/rvm"
-unset _append_to_path_variable
-unset _head_to_path_variable

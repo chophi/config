@@ -65,19 +65,23 @@ _head_to_path_variable=(
     $JRE_HOME/bin
 )
 
-for name in ${_head_to_path_variable[@]}; do
-    head-to-path $name
-done
-
 _append_to_path_variable=(
     /usr/local/Cellar/git/2.10.0/bin
     /usr/local/texlive/2016/bin/universal-darwin
     /usr/local/Cellar/node/8.1.4/bin/
     $HOME/git-repo/depot_tools
 )
+
+for name in ${_head_to_path_variable[@]}; do
+    head-to-path $name
+done
+
 for name in ${_append_to_path_variable[@]}; do
     append-to-path $name
 done
+
+unset _append_to_path_variable
+unset _head_to_path_variable
 
 if [ "$TERM" != "eterm-color" ]; then
     source-if-exist "${HOME}/.iterm2_shell_integration.bash"
@@ -85,5 +89,3 @@ fi
 
 source-if-exist "${HOME}/.bashrc_gitignore"
 
-unset _append_to_path_variable
-unset _head_to_path_variable
