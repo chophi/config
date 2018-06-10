@@ -94,11 +94,31 @@ function _get_filtered_bash_list {
     echo $flist
 }
 
+function check_time {
+    local command="$@"
+    local date_command="date +%s%3N"
+    local time_lapsed_unit="milliseconds"
+    if [ "$MY_HOST_SYSTEM" == "darwin" ]; then
+        local gnu_date=/usr/local/opt/coreutils/libexec/gnubin/date
+        if [ -x $gnu_date ]; then
+            date_command="$gnu_date +%s%3N"
+            time_lapsed_unit="ms"
+        else
+            date_command="date +%s"
+            time_lapsed_unit="seconds"
+        fi
+    fi
+    local pre_time=`$date_command`
+    eval $command
+    local post_time=`$date_command`
+    ((time_took=post_time-pre_time))
+    echo "($time_took $time_lapsed_unit)"
+}
 function _source_bash_files {
     local bash_files=`_get_filtered_bash_list $1`
     for name in ${bash_files//:/ }; do
-        echo "Source $name"
-        source $name
+        echo -n "Source $name"
+        check_time source $name
     done
 }
 
