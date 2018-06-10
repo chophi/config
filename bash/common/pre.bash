@@ -4,26 +4,39 @@ echo "Start sourcing `dirname ${BASH_SOURCE[0]}`/`basename ${BASH_SOURCE[0]}`"
 
 export MY_HOST_SYSTEM=`uname -a | cut -d " " -f 1 | tr A-Z a-z`
 
-function _add_to_variable {
-    local path_list=${3//\~/$HOME}
+# $1: append or to-head
+# $2: the variable name
+# $3: path list
+function _add_to_variable_v2 {
     local tmp_var=`printenv $2`
-    local path
-    for path in ${path_list//:/ }; do
-        if [ -d $path ]; then
+    local dir
+    for dir in "$3"; do
+        if [ -d $dir ]; then
             if [ "$1" == "append" ]; then
-                tmp_var=$tmp_var:$path
+                tmp_var=$tmp_var:$dir
             else
-                tmp_var=$path:$tmp_var
+                tmp_var=$dir:$tmp_var
             fi
         fi
     done
     export $2="$tmp_var"
 }
 
+function _add_to_variable {
+    local path_list=${3//\~/$HOME}
+    _add_to_variable_v2 $1 $2 "${path_list//:/ }"
+}
+
 alias head-to-variable='_add_to_variable to-head '
 alias append-to-variable='_add_to_variable append '
 alias head-to-path='head-to-variable PATH '
 alias append-to-path='head-to-variable PATH '
+# the array edition
+alias head-to-variable-v2='_add_to_variable_v2 to-head '
+alias append-to-variable-v2='_add_to_variable_v2 append '
+alias head-to-path-v2='head-to-variable-v2 PATH '
+alias append-to-path-v2='head-to-variable-v2 PATH '
+
 
 function clean-variable {
     local new_path=""

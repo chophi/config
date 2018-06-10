@@ -29,13 +29,8 @@ _append_to_path_variable=(
     /usr/local/texlive/2015/bin/x86_64-linux
 )
 
-for name in ${_head_to_path_variable[@]}; do
-    head-to-path $name
-done
-
-for name in ${_append_to_path_variable[@]}; do
-    append-to-path $name
-done
+head-to-path-v2 "${_head_to_path_variable[@]}"
+append-to-path-v2 "${_append_to_path_variable[@]}"
 
 unset _append_to_path_variable
 unset _head_to_path_variable
