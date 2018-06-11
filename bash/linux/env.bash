@@ -1,7 +1,7 @@
 export USE_CCACHE=1
 export CCACHE_DIR=/local/ccache
 
-append-to-variable PKG_CONIFG_PATH /usr/local/lib/pkgconfig
+append-to-variable PKG_CONFIG_PATH "/usr/local/lib/pkgconfig"
 append-to-variable LD_LIBRARY_PATH "$HOME/bin/lib"
 append-to-variable LD_LIBRARY_PATH "/usr/local/lib"
 append-to-variable MANPATH "$HOME/git-repo/depot_tools/man/"
