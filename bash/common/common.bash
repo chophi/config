@@ -72,14 +72,13 @@ if [ -x /usr/bin/dircolors ]; then
     alias grep='grep --color=auto'
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
-fi
-
-if [ -d "/usr/local/opt/coreutils/libexec/gnubin" ]; then
+elif [ -d "/usr/local/opt/coreutils/libexec/gnubin" ]; then
     export PATH=/usr/local/opt/coreutils/libexec/gnubin:$PATH
     alias ls='ls --color=auto'
 else
     alias ls='ls -G'
 fi
+
 
 
 # enable programmable completion features (you don't need to enable
