@@ -21,6 +21,7 @@ _append_to_path_variable=(
     $HOME/bin/common-scripts/envs
     $HOME/bin/private-scripts
     $HOME/.rvm/bin
+    $HOME/.platform_script
     $HOME/bin/common-scripts/android-decompile
     $HOME/build/android-studio/bin
     $HOME/software/racket/bin/
