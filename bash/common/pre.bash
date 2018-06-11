@@ -110,7 +110,7 @@ function _get_filtered_bash_list {
 function check_time {
     local command="$@"
     local date_command="date +%s%3N"
-    local time_lapsed_unit="milliseconds"
+    local time_lapsed_unit="ms"
     if [ "$MY_HOST_SYSTEM" == "darwin" ]; then
         local gnu_date=/usr/local/opt/coreutils/libexec/gnubin/date
         if [ -x $gnu_date ]; then
