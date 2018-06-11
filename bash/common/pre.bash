@@ -6,37 +6,34 @@ export MY_HOST_SYSTEM=`uname -a | cut -d " " -f 1 | tr A-Z a-z`
 
 # $1: append or to-head
 # $2: the variable name
-# $3: path list
-function _add_to_variable_v2 {
-    local tmp_var=`printenv $2`
-    local dir
-    for dir in "$3"; do
+# $3 - rest: path list
+function _add_to_variable {
+    local var_1="$1"
+    local var_2="$2"
+    local tmp_var=`printenv $var_2`
+
+    local IFS='
+'
+    shift 2
+    path_list=("$@")
+
+    local dir    
+    for dir in "${path_list[@]}"; do
         if [ -d $dir ]; then
-            if [ "$1" == "append" ]; then
+            if [ "$var_1" == "append" ]; then
                 tmp_var=$tmp_var:$dir
             else
                 tmp_var=$dir:$tmp_var
             fi
         fi
     done
-    export $2="$tmp_var"
-}
-
-function _add_to_variable {
-    local path_list=${3//\~/$HOME}
-    _add_to_variable_v2 $1 $2 "${path_list//:/ }"
+    export $var_2="$tmp_var"
 }
 
 alias head-to-variable='_add_to_variable to-head '
 alias append-to-variable='_add_to_variable append '
 alias head-to-path='head-to-variable PATH '
-alias append-to-path='head-to-variable PATH '
-# the array edition
-alias head-to-variable-v2='_add_to_variable_v2 to-head '
-alias append-to-variable-v2='_add_to_variable_v2 append '
-alias head-to-path-v2='head-to-variable-v2 PATH '
-alias append-to-path-v2='head-to-variable-v2 PATH '
-
+alias append-to-path='append-to-variable PATH '
 
 function clean-variable {
     local new_path=""
@@ -144,4 +141,4 @@ function source-if-exist {
 alias source-pre-bashes='_source_bash_files 0'
 alias source-other-bashes='_source_bash_files 1'
 alias source-post-bashes='_source_bash_files 2'
-alias sync-bashrc='source ${CONFIG_ROOT_DIR}/bash/${MY_HOST_SYSTEM}/init.bash'
+alias sync-bashrc='source ${CONFIG_ROOT_DIR}/bash/common/init.bash'

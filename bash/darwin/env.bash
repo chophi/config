@@ -72,8 +72,8 @@ _append_to_path_variable=(
     $HOME/git-repo/depot_tools
 )
 
-head-to-path-v2 "${_head_to_path_variable[@]}"
-append-to-path-v2 "${_append_to_path_variable[@]}"
+head-to-path "${_head_to_path_variable[@]}"
+append-to-path "${_append_to_path_variable[@]}"
 
 unset _append_to_path_variable
 unset _head_to_path_variable
