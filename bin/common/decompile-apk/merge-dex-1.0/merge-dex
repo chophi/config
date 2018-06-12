@@ -1,0 +1,4 @@
+#!/bin/bash
+_classpath="`dirname $0`/merge-dex-1.0":"`dirname $0`/merge-dex-1.0"/dex2jar-2.0/lib/dx-1.7.jar
+# echo CLASSPATH is {$_classpath}
+java -classpath "$_classpath" MergeMultipleDex $1 $2 $3

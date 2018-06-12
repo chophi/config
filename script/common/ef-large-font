@@ -1,0 +1,2 @@
+#!/bin/bash
+exec emacsclient -c --alternate-editor="" -F '((font . "32x64"))' "$@"

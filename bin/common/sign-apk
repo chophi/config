@@ -1,0 +1,4 @@
+#!/bin/bash
+
+NAME_WITHOUT_SUFFIX=${1:0:$#-5}
+jarsigner -verbose -keystore ~/vif/rhyflyn.keystore -signedjar ${NAME_WITHOUT_SUFFIX}_signed.apk ${NAME_WITHOUT_SUFFIX}.apk rhyflyn.keystore

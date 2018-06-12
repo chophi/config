@@ -1,0 +1,4 @@
+#!/bin/bash
+CUR_DIR=`dirname ${BASH_SOURCE[0]}`
+JAR_FILE=$CUR_DIR/apk-decompile/jd-gui-1.4.0.jar
+java -jar $JAR_FILE

@@ -1,0 +1,58 @@
+#!/bin/bash
+
+# USAGE: decompile-apk-and-open <apk-name>.apk
+CUR_SHDIR=`dirname $0`
+# COMMANDS PATH
+MERGE_DEX_COMMAND=merge-dex
+DEX2JAR_COMMAND=d2j-dex2jar.sh
+APKTOOL_COMMAND=apktool
+
+# echo $CUR_SHDIR
+
+APK_NAME=`basename $1`
+NAME_WITHOUT_SUFFIX=${1:0:$#-5}
+
+ROOT=$PWD
+DECOMPILE_ROOT=$ROOT/decompile-1
+DEX_ROOT=$DECOMPILE_ROOT/dex
+SMALI_ROOT=$DECOMPILE_ROOT/smali
+JAR_ROOT=$DECOMPILE_ROOT/jar
+
+mkdir -p $DECOMPILE_ROOT
+mkdir -p $DEX_ROOT
+mkdir -p $SMALI_ROOT
+mkdir -p $JAR_ROOT
+
+cd $SMALI_ROOT
+$APKTOOL_COMMAND d $ROOT/$APK_NAME
+
+# unzip apk
+cd $DEX_ROOT
+unzip $ROOT/$APK_NAME
+
+cd $JAR_ROOT
+# decompile the dex file to jar
+for dex in $DEX_ROOT/*.dex; do
+    $DEX2JAR_COMMAND $dex
+done;
+
+cd $DEX_ROOT
+# compose the dex files to merged-dex.dex
+DEX_FILES=(*.dex)
+NUM_FILES=${#DEX_FILES[@]}
+if [ $NUM_FILES -gt 1 ]; then
+    $MERGE_DEX_COMMAND $DEX_ROOT/${DEX_FILES[0]} $DEX_ROOT/${DEX_FILES[1]} $DEX_ROOT/merged-dex.dex
+
+    for i in `seq 2 $(($NUM_FILES-1))`; do
+        CMD="$MERGE_DEX_COMMAND $DEX_ROOT/merged-dex.dex $DEX_ROOT/${DEX_FILES[$i]} $DEX_ROOT/merged-dex.dex"
+        # echo $CMD
+        ${CMD}
+        # $CUR_SHDIR/merge-dex/merge-dex merged-dex.dex $DEX_ROOT/${DEX_FILES[$i]} merged-dex.dex
+    done
+
+    # merge jar to full.jar
+    cd $JAR_ROOT
+    jar -cvf full.jar $JAR_ROOT/*.jar
+    # create the merged jar
+    $DEX2JAR_COMMAND $DEX_ROOT/merged-dex.dex
+fi

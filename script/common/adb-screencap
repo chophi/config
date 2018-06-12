@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if [ $# -ge 1 ]; then
+    FILE_NAME=$1
+else
+    FILE_NAME="screen.png"
+fi
+adb shell screencap -p | perl -pe 's/\x0D\x0A/\x0A/g' > $FILE_NAME
+

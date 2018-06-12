@@ -1,0 +1,43 @@
+#!/bin/bash
+
+GIT_DIR=`git rev-parse --show-toplevel`
+cd $GIT_DIR
+
+PATCH_DIR=$HOME/patches
+mkdir -p $PATCH_DIR
+PATCH_RECORD_FILE=$PATCH_DIR/patches.org
+
+git log --pretty=oneline -n 10 | \
+while read line
+do
+    sha1=`echo $line | cut -d " " -f 1`
+    topic=`echo $line | cut -d " " -f 2-`
+    change_id=`git log $sha1 -1 | grep Change-Id`
+    change_id=`echo $change_id | cut -d ":" -f 2-`
+
+    if [ -f $PATCH_RECORD_FILE ]; then
+        grep $sha1 $PATCH_RECORD_FILE
+        if [ $? -eq 0 ]; then
+            echo "change: $change_id is already existed, exiting"
+            exit 0
+        fi
+        grep $change_id $PATCH_RECORD_FILE
+        if [ $? -eq 0 ]; then
+            echo "patch already exist, but the sha1 changed, continue"
+        fi
+    fi
+
+    pushed_commits=`git branch -r --contains $sha1`
+    if [ -z "$pushed_commits" ]; then
+        PATCH_NAME=`git format-patch -1 $sha1 -o $PATCH_DIR`
+        PATCH_NAME=`basename $PATCH_NAME`
+        echo "- $sha1" | tee -a $PATCH_RECORD_FILE
+        echo "  $topic" | tee -a $PATCH_RECORD_FILE
+        echo "  [[$PATCH_DIR/$PATCH_NAME][$PATCH_NAME]]" | tee -a $PATCH_RECORD_FILE
+        echo "  [[$GIT_DIR][${GIT_DIR/*workspace\//}]]" | tee -a $PATCH_RECORD_FILE
+        echo -n "  " | tee -a $PATCH_RECORD_FILE
+        echo $change_id | tee -a $PATCH_RECORD_FILE
+    fi
+done
+
+cd ~-

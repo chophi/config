@@ -1,0 +1,36 @@
+#!/bin/bash
+
+
+CMD_PARSER=`getopt u:n:d: $*`;
+
+printUsage() {
+    echo "gh-repo -u <github-user> -n <repo-name> -d <description>"
+}
+
+if [ $? != 0 ] ; then printUsage; exit 1 ; fi
+
+# Note the quotes around `$TEMP': they are essential!
+set -- $CMD_PARSER
+
+
+while true ; do
+    case "$1" in
+        -n) NAME=$2; shift 2;;
+	-d) DESC=$2; shift 2;;
+        -u) USER=$2; shift 2;;
+        --) shift ; break ;;
+	*) echo "Internal error!" ; exit 1 ;;
+    esac
+done
+
+
+if [ -z "$NAME" ] || [ -z "$DESC" ] || [ -z "$USER" ]; then
+    printUsage;
+    exit 1;
+fi
+
+echo "USER:    $USER"
+echo "NAME:    $NAME"
+echo "DESC:    $DESC"
+
+curl -u '$USER' https://api.github.com/user/repos -d '{"name": "'"$NAME"'", "description": "'"$DESC"'"}'

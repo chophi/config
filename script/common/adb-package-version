@@ -1,0 +1,6 @@
+#!/bin/bash
+if [ $# -lt 1 ]; then
+    echo "Usage: package-version <package-name>"
+    exit 1
+fi
+adb shell dumpsys package $1 | grep version

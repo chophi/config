@@ -1,0 +1,47 @@
+#!/bin/bash
+if [ -f "$HOME/AMAZON_MACHINE" ] && [ -f "$HOME/MAC_MACHINE" ]; then
+    JAVA_BIN=/usr/bin/java
+elif [ -f "$HOME/LINUX_MACHINE" ]; then
+    JAVA_BIN=~/software/jdk1.8.0_91/bin/java
+fi
+OPENGROK_JAR_ALL_IN_ONE=~/.emacs-pkg/clj-opengrok-0.3.0-standalone.jar
+OPENGROK_JAR_NEW=~/.emacs-pkg/bin/opengrok.jar
+CTAGS_BIN=~/.emacs-pkg/ctags
+SRC_ROOT=$1
+DST_DIR=$2
+CONFIG_FILE=$2/configuration.xml
+
+OPENGROK_JAR=$OPENGROK_JAR_NEW
+if [ "$OPENGROK_JAR" == "$OPENGROK_JAR_NEW" ]; then
+    OPENGROK_LOAD_CLASS_OPTION="-jar $OPENGROK_JAR"
+elif [ "$OPENGROK_JAR" == "$OPENGROK_JAR_ALL_IN_ONE" ]; then
+    OPENGROK_LOAD_CLASS_OPTION="-cp $OPENGROK_JAR org.opensolaris.opengrok.index.Indexer"
+fi
+
+echo JAVA_BIN is $JAVA_BIN
+echo OPENGROK_JAR is $OPENGROK_JAR
+echo CTAGS_BIN is $CTAGS_BIN
+echo OPENGROK_LOAD_CLASS_OPTION is $OPENGROK_LOAD_CLASS_OPTION
+
+$JAVA_BIN \
+    -Xmx2048m \
+    $OPENGROK_LOAD_CLASS_OPTION \
+    -r on \
+    -a on \
+    -c $CTAGS_BIN \
+    -W $CONFIG_FILE \
+    -S \
+    -s $SRC_ROOT \
+    -d $DST_DIR \
+    -H \
+    -q \
+    -i d:.opengrok \
+    -i d:out \
+    -i *.so \
+    -i *.a \
+    -i *.o \
+    -i *.gz \
+    -i *.bz2 \
+    -i *.jar \
+    -i *.zip \
+    -i *.class
