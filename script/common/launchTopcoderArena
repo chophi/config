@@ -1,0 +1,26 @@
+#!/bin/bash
+
+PREVIOUS_DIR=`dirname $0`
+TOPCODER_DIR=~/Topcoder
+
+cd $TOPCODER_DIR
+
+if ! [ -f "ContestAppletProd.jnlp" ]; then
+    echo "Download ContestAppletProd.jnlp"
+    curl\
+        --remote-name \
+        --remote-header-name\
+        http://www.topcoder.com/contest/arena/ContestAppletProd.jnlp
+fi
+
+# JAVAWS="/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/bin/javaws"
+JAVAWS="/usr/bin/javaws"
+
+if [ ! -x "$JAVAWS" ]; then
+    # Fallback to PATH's javaws if the plugin isn't found
+    JAVAWS=javaws
+fi
+
+"$JAVAWS" ContestAppletProd.jnlp
+
+cd $PREVIOUS_DIR
