@@ -46,15 +46,8 @@ _head_to_path_variable=(
     /usr/local/opt/gnu-getopt/bin
     /usr/local/opt/coreutils/libexec/gnubin
     /usr/local/opt/texinfo/bin
-    $HOME/bin
     $HOME/.rvm/bin
     $HOME/.emacs-pkg
-    $HOME/.platform_script
-    $HOME/bin/binfile
-    $HOME/bin/common-scripts
-    $HOME/bin/common-scripts/envs
-    $HOME/bin/private-scripts
-    $HOME/bin/common-scripts/android-decompile
     $HOME/build/android-studio/bin
     $ANDROID_NDK_HOME
     $ANDROID_SDK_HOME/tools

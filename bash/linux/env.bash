@@ -15,14 +15,7 @@ _head_to_path_variable=(
 _append_to_path_variable=(
     /sbin
     /usr/sbin
-    $HOME/bin
-    $HOME/bin/binfile
-    $HOME/bin/common-scripts
-    $HOME/bin/common-scripts/envs
-    $HOME/bin/private-scripts
     $HOME/.rvm/bin
-    $HOME/.platform_script
-    $HOME/bin/common-scripts/android-decompile
     $HOME/build/android-studio/bin
     $HOME/software/racket/bin/
     $HOME/software/swift-dev/bin
