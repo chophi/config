@@ -1,0 +1,3 @@
+#!/bin/bash
+
+$HOME/git-repo/leetcode-cli/bin/leetcode "$@"
