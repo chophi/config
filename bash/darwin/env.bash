@@ -42,7 +42,6 @@ _head_to_path_variable=(
     /sbin
     /usr/sbin
     /opt/local/bin
-    /usr/local/texlive/2015/bin/x86_64-linux
     /usr/local/opt/gnu-getopt/bin
     /usr/local/opt/coreutils/libexec/gnubin
     /usr/local/opt/texinfo/bin
@@ -56,11 +55,11 @@ _head_to_path_variable=(
     /Applications/Racket\ v6.9/bin
     $JAVA_HOME/bin
     $JRE_HOME/bin
+    /Library/TeX/texbin
 )
 
 _append_to_path_variable=(
     /usr/local/Cellar/git/2.10.0/bin
-    /usr/local/texlive/2016/bin/universal-darwin
     /usr/local/Cellar/node/8.1.4/bin/
     $HOME/git-repo/depot_tools
 )
