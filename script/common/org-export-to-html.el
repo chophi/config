@@ -21,19 +21,51 @@
 (defconst svg-host-url-mapping
   '(("^https://github\\.com/\\\(.*\\\)/blob/\\\(.*\\.svg\\\)$"
      .
-     "https://rawgithub.com/\\1/\\2?sanitize=true")))
+     "https://rawgithub.com/\\1/\\2?sanitize=true")
+    ("^.*git-repo/GraphvizImages/.*/\\\(.*\\\)\\.\\\(svg\\|png\\|jpeg\\|jpg\\\)$" .
+     copy-and-publish-image)))
+
+(defconst image-source-repo "~/git-repo/GraphvizImages/images")
+(defconst target-image-dir "~/nanoc-site/content/assets/images")
+
+(defun sha1sum-of-file (file)
+  (substring
+   (shell-command-to-string
+    (format "md5sum %s | cut -d ' ' -f 1" (expand-file-name file)))
+   0 -1))
+
+(defun copy-and-publish-image (regexp source)
+  (let* ((index (string-match regexp source))
+         (basename (match-string 1 source))
+         (extension (match-string 2 source))
+         (source-dir (expand-file-name image-source-repo))
+         (target-dir (expand-file-name target-image-dir))
+         (source-file (concat source-dir "/" basename "." extension))
+         (target-file (concat target-dir "/" basename "." extension)))
+    (when (not (file-exists-p source-file))
+      (error "source file not exist"))
+    (when (or (not (file-exists-p target-file))
+              (not (equal (sha1sum-of-file source-file) (sha1sum-of-file target-file))))
+      (make-directory target-dir t)
+      (copy-file source-file target-file))
+    (format "/assets/images/%s.%s" basename extension)))
 
 (defun* org-html--svg-image-hosting (source attributes info)
   "Embedding svg file for github raw image"
+  (message "call with source=[%s]" source)
   (dolist (m svg-host-url-mapping)
     (when (string-match (car m) source)
+      (message "found a match[%s]" (car m))
       (return-from org-html--svg-image-hosting
         (org-html-close-tag
          "img"
          (org-html--make-attribute-string
           (org-combine-plists
-           (list :src (replace-regexp-in-string (car m) (cdr m) source)
-	             :alt (file-name-nondirectory source))
+           (list :src (if (stringp (cdr m))
+                          (replace-regexp-in-string (car m) (cdr m) source)
+                        (funcall (cdr m ) (car m) source))
+	             :alt (file-name-nondirectory source)
+                 :class "img-thumbnail img-fluid")
            attributes))
          info)
         ))))
