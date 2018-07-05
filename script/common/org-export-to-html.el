@@ -19,6 +19,7 @@
 
 (defun main ()
   (interactive)
-  (destructuring-bind (file) command-line-args-left
+  (destructuring-bind (file &optional (outputfile nil)) command-line-args-left
+    (print file outputfile)
     (with-current-buffer (find-file-noselect file)
       (org-export-to-file 'html (concat (file-name-sans-extension file) ".html") nil nil nil t))))
