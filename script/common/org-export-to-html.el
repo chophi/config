@@ -56,19 +56,23 @@
   (dolist (m svg-host-url-mapping)
     (when (string-match (car m) source)
       (message "found a match[%s]" (car m))
-      (return-from org-html--svg-image-hosting
-        (org-html-close-tag
-         "img"
-         (org-html--make-attribute-string
-          (org-combine-plists
-           (list :src (if (stringp (cdr m))
-                          (replace-regexp-in-string (car m) (cdr m) source)
-                        (funcall (cdr m ) (car m) source))
-	             :alt (file-name-nondirectory source)
-                 :class "img-thumbnail img-fluid")
-           attributes))
-         info)
-        ))))
+      (let ((source-link (if (stringp (cdr m))
+                             (replace-regexp-in-string (car m) (cdr m) source)
+                           (funcall (cdr m ) (car m) source))))
+        (return-from org-html--svg-image-hosting
+          (org-html-close-tag
+           "img"
+           (org-html--make-attribute-string
+            (org-combine-plists
+             (list :src source-link
+	               :alt (file-name-nondirectory source)
+                   :class "img-thumbnail img-fluid"
+                   :data-remote source-link
+                   :data-toggle "lightbox"
+                   :data-type "image")
+             attributes))
+           info))))))
+
 (advice-add #'org-html--svg-image :before-until
             #'org-html--svg-image-hosting)
 
