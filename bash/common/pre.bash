@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Start sourcing `dirname ${BASH_SOURCE[0]}`/`basename ${BASH_SOURCE[0]}`"
+# echo "Start sourcing `dirname ${BASH_SOURCE[0]}`/`basename ${BASH_SOURCE[0]}`"
 
 export MY_HOST_SYSTEM=`uname -a | cut -d " " -f 1 | tr A-Z a-z`
 
@@ -104,6 +104,8 @@ function _get_filtered_bash_list {
     echo $flist
 }
 
+declare -A CHECK_COMMAND_TIME_MATRIX
+
 function check_time {
     local command="$@"
     local date_command="date +%s%3N"
@@ -122,13 +124,28 @@ function check_time {
     eval $command
     local post_time=`$date_command`
     ((time_took=post_time-pre_time))
-    echo "($time_took $time_lapsed_unit)"
+    CHECK_COMMAND_TIME_MATRIX[$command]="(${time_took}${time_lapsed_unit})"
 }
+
 function _source_bash_files {
     local bash_files=`_get_filtered_bash_list $1`
     for name in ${bash_files//:/ }; do
-        echo -n "Source $name"
         check_time source $name
+    done
+}
+
+function check-command-time-matrix {
+    local width=0
+    local tmp_width
+    for com in "${!CHECK_COMMAND_TIME_MATRIX[@]}"; do
+        tmp_width=${#com}
+        ((tmp_width=tmp_width+5))
+        if [ $width -lt $tmp_width ]; then
+            width=$tmp_width
+        fi
+    done
+    for com in "${!CHECK_COMMAND_TIME_MATRIX[@]}"; do
+        printf "|%-${width}s| %-10s|\n" "$com" ${CHECK_COMMAND_TIME_MATRIX[$com]}
     done
 }
 
