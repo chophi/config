@@ -44,7 +44,7 @@ mkfifo $fifo_name 2>/dev/null
 fswatch . --exclude='tmp/.*' --exclude='output/.*' --exclude='.*#.*' --exclude='.git/.*'> $fifo_name &
 nanoc view --port=$port &
 
-while [ -n "loop forever" ]; do
+while [ 1 ]; do
     < $fifo_name read -t 1 input_content
     if [ -n "$input_content" ]; then
         echo "Changes in below files:"
@@ -57,6 +57,6 @@ while [ -n "loop forever" ]; do
         echo "Nanoc updating ........"
         nanoc
     fi
-    #sleep 3
+    sleep 3
 done
 
