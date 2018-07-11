@@ -45,6 +45,7 @@ _head_to_path_variable=(
     /usr/local/opt/gnu-getopt/bin
     /usr/local/opt/coreutils/libexec/gnubin
     /usr/local/opt/texinfo/bin
+    /usr/local/opt/openssl/bin
     $HOME/.rvm/bin
     $HOME/.emacs-pkg
     $HOME/build/android-studio/bin
