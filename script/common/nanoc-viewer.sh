@@ -22,7 +22,7 @@ public_dir=~/nanoc-site
 private_dir=~/nanoc-site-private
 
 if [ "$1" != "public" ] && [ "$1" != "private" ]; then
-    do_clean_up
+    # do_clean_up
     exit 0;
 fi
 
@@ -34,14 +34,14 @@ else
     port=3001
 fi
 
-do_clean_up
+# do_clean_up
 
 cd $root_dir
 fifo_name=/tmp/`basename $root_dir`.fifo
 
 mkfifo $fifo_name 2>/dev/null
 
-fswatch . --exclude='tmp/.*' --exclude='output/.*' --exclude='.*#.*' --exclude='\\.git/*'> $fifo_name &
+fswatch . --exclude='tmp/.*' --exclude='output/.*' --exclude='.*#.*' --exclude='.git/.*'> $fifo_name &
 nanoc view --port=$port &
 
 while [ -n "loop forever" ]; do
@@ -57,6 +57,6 @@ while [ -n "loop forever" ]; do
         echo "Nanoc updating ........"
         nanoc
     fi
-    sleep 3
+    #sleep 3
 done
 
