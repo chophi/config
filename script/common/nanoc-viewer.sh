@@ -57,6 +57,6 @@ while [ 1 ]; do
         echo "Nanoc updating ........"
         nanoc
     fi
-    sleep 3
+    # sleep 3
 done
 
