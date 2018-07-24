@@ -1,4 +1,4 @@
-export USE_CCACHE=1
+export USE_CCACHE=0
 export CCACHE_DIR=~/.ccache
 
 export ANDROID_HOME=~/Library/Android/sdk/

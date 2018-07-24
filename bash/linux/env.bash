@@ -1,4 +1,4 @@
-export USE_CCACHE=1
+export USE_CCACHE=0
 export CCACHE_DIR=/local/ccache
 
 append-to-variable PKG_CONFIG_PATH "/usr/local/lib/pkgconfig"
