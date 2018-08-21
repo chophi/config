@@ -75,6 +75,7 @@ function _set-android-build-env-pre {
 }
 
 function set-android-build-env {
+    _set-android-build-env-pre
     cd ~/work/aosp/pie
     source build/envsetup.sh
     lunch aosp_arm-eng
@@ -86,4 +87,4 @@ function set-android-build-env {
 # if ! [ -e ~/work/aosp/pie ]; then
 #     mount-sparse-image android.img ~/work/aosp
 # fi
-# _set-android-build-env-env
+# _set-android-build-env-pre
