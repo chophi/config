@@ -79,6 +79,7 @@ function set-android-build-env {
     cd ~/work/aosp/pie
     source build/envsetup.sh
     lunch aosp_x86-eng
+    alias my-emulator='emulator -writable-system &'
 }
 
 # After set the android sparse image:
