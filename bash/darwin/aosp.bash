@@ -70,7 +70,7 @@ function unmount-sparse-image {
 }
 
 function _set-android-build-env-pre {
-    export PATH=/bin:$PATH
+    export PATH=/bin:/usr/bin:$PATH
     alias ls='ls -G'
 }
 
