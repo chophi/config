@@ -78,7 +78,7 @@ function set-android-build-env {
     _set-android-build-env-pre
     cd ~/work/aosp/pie
     source build/envsetup.sh
-    lunch aosp_arm-eng
+    lunch aosp_x86-eng
 }
 
 # After set the android sparse image:
