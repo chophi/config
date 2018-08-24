@@ -19,7 +19,7 @@
   '(("^https://github\\.com/\\\(.*\\\)/blob/\\\(.*\\.svg\\\)$"
      .
      "https://rawgithub.com/\\1/\\2?sanitize=true")
-    ("^.*git-repo/GraphvizImages/.*/\\\(.*\\\)\\.\\\(svg\\|png\\|jpeg\\|jpg\\\)$" .
+    ("^.*git-\\\(farm\\|repo\\\)/GraphvizImages/.*/\\\(.*\\\)\\.\\\(svg\\|png\\|jpeg\\|jpg\\\)$" .
      copy-and-publish-image)))
 
 (defconst image-source-repo "~/git-repo/GraphvizImages/images")
