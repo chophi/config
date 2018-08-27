@@ -74,12 +74,29 @@ function _set-android-build-env-pre {
     alias ls='ls -G'
 }
 
+function __my-emulator {
+    local possible_kernel=~/work/aosp/kernel/goldfish/out/arch/x86/boot/bzImage
+    local fixed_flags="-writable-system -show-kernel"
+    local timestamp=`bdate`
+    local kmsg_log_dir=~/logs/goldfish/kmsg
+    mkdir -p $kmsg_log_dir
+    local conditional_args=""
+    if [ -e $possible_kernel ]; then
+        conditional_args="-kernel ${possible_kernel}"
+    fi
+    ln -sf $kmsg_log_dir/kmsg-$timestamp.log $kmsg_log_dir/kmsg-goldfish-current.log
+    local command="emulator $fixed_flags $conditional_args"
+    echo [Run: $command]
+    echo [Log: $kmsg_log_dir/kmsg-$timestamp.log]
+    $command 2>&1 | tee $kmsg_log_dir/kmsg-$timestamp.log
+}
+
 function set-android-build-env {
     _set-android-build-env-pre
     cd ~/work/aosp/pie
     source build/envsetup.sh
     lunch aosp_x86-eng
-    alias my-emulator='emulator -writable-system &'
+    alias my-emulator='__my-emulator'
 }
 
 # After set the android sparse image:
