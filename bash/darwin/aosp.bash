@@ -76,13 +76,20 @@ function _set-android-build-env-pre {
 
 function __my-emulator {
     local possible_kernel=~/work/aosp/kernel/goldfish/out/arch/x86/boot/bzImage
+    local possible_sdcard=~/work/aosp/data/SdCard4Emulator.img
     local fixed_flags="-writable-system -show-kernel"
     local timestamp=`bdate`
     local kmsg_log_dir=~/logs/goldfish/kmsg
     mkdir -p $kmsg_log_dir
     local conditional_args=""
     if [ -e $possible_kernel ]; then
-        conditional_args="-kernel ${possible_kernel}"
+        conditional_args+=" -kernel ${possible_kernel}"
+    fi
+    if [ -e $possible_sdcard ]; then
+        conditional_args+=" -sdcard ${possible_sdcard}"
+    fi
+    if [ $# -ge 1 ]; then
+        conditional_args+=" $@"
     fi
     ln -sf $kmsg_log_dir/kmsg-$timestamp.log $kmsg_log_dir/kmsg-goldfish-current.log
     local command="emulator $fixed_flags $conditional_args"
