@@ -106,6 +106,17 @@ function set-android-build-env {
     alias my-emulator='__my-emulator'
 }
 
+function goto-goldfish-dirs {
+    # goldfish kernel root
+    local gkr="$HOME/work/aosp/pie/kernel_goldfish"
+    local menu=(
+        "kernel-root: cd $gkr"
+        "kernel-out: cd $gkr/out"
+        "kernel-bzImage-dir: cd $gkr/out/arch/x86/boot"
+    )
+    run_item_in_menu "${menu[@]}"
+}
+
 # After set the android sparse image:
 # create-sparse-image android.img 160
 # Add this to private/bash/darwin/post.bash:
