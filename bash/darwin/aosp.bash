@@ -70,6 +70,9 @@ function unmount-sparse-image {
 }
 
 function _set-android-build-env-pre {
+    if [ -e $HOME/work/aosp/kernel/goldfish/.build/sdcard.bash ]; then
+        source $HOME/work/aosp/kernel/goldfish/.build/sdcard.bash
+    fi
     export PATH=/bin:/usr/bin:$PATH
     alias ls='ls -G'
 }
