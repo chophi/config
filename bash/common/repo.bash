@@ -1,7 +1,8 @@
 export REPO_URL='https://mirrors.tuna.tsinghua.edu.cn/git/git-repo'
 alias repo-init-android-o='repo init -u https://aosp.tuna.tsinghua.edu.cn/platform/manifest -b android-8.0.0_r13'
 alias repo-init-android-p='repo init -u https://aosp.tuna.tsinghua.edu.cn/platform/manifest -b android-9.0.0_r3'
-
+alias repo-init-emu-master='repo init -u https://aosp.tuna.tsinghua.edu.cn/platform/manifest -b emu-master-qemu'
+alias repo-init-studio-master='repo init -u https://aosp.tuna.tsinghua.edu.cn/platform/manifest -b studio-master-dev'
 alias repo-sync='mkdir -p .log && repo sync -j8 2>&1 | tee .log/sync-`bdate`.log'
 alias repo-sync-current='mkdir -p .log && repo sync -j8 -c 2>&1 | tee .log/sync-`bdate`.log; echo `bdate` > .log/sync-completed-timestamp'
 alias repo-sync-current-local='mkdir -p .log && repo sync -j8 -c -l 2>&1 | tee .log/sync-`bdate`.log'
@@ -44,4 +45,7 @@ function gotod {
     cd ${dir_list[$x]}
 }
 
+function clone-goldfish-kernel {
+    git clone https://aosp.tuna.tsinghua.edu.cn/android/kernel/goldfish.git
+}
 alias gotop='cd `repo-top`'
