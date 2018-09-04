@@ -159,3 +159,11 @@ alias source-pre-bashes='_source_bash_files 0'
 alias source-other-bashes='_source_bash_files 1'
 alias source-post-bashes='_source_bash_files 2'
 alias sync-bashrc='source ${CONFIG_ROOT_DIR}/bash/common/init.bash'
+
+__bash_load_log=""
+function append-to-log {
+    __bash_load_log="${__bash_load_log}$@\n"
+}
+function dump-log {
+    echo -e "$__bash_load_log"
+}
