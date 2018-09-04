@@ -2,8 +2,10 @@ function _set-android-build-env-pre {
     if [ -e $HOME/work/aosp/kernel/goldfish/.build/sdcard.bash ]; then
         source $HOME/work/aosp/kernel/goldfish/.build/sdcard.bash
     fi
-    export PATH=/bin:/usr/bin:$PATH
-    alias ls='ls -G'
+    if ! [ "`uname`" == "Linux" ]; then
+        export PATH=/bin:/usr/bin:$PATH
+        alias ls='ls -G'
+    fi
 }
 
 function __my-emulator {
