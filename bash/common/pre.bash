@@ -17,16 +17,24 @@ function _add_to_variable {
     shift 2
     path_list=("$@")
 
-    local dir    
+    local dir
+    local add
+    local first=1
     for dir in "${path_list[@]}"; do
         if [ -d $dir ]; then
-            if [ "$var_1" == "append" ]; then
-                tmp_var=$tmp_var:$dir
+            if [ $first -eq 1 ]; then
+                add=$dir
+                ((++first))
             else
-                tmp_var=$dir:$tmp_var
+                add=$add:$dir
             fi
         fi
     done
+    if [ "$var_1" == "append" ]; then
+        tmp_var=$tmp_var:$add
+    else
+        tmp_var=$add:$tmp_var
+    fi
     export $var_2="$tmp_var"
 }
 
