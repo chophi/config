@@ -1,6 +1,13 @@
+if [ -e $HOME/work/aosp ]; then
+    AOSP_ROOT=$HOME/work/aosp
+elif [ -e $HOME/work/mnt/aosp ]; then
+    AOSP_ROOT=$HOME/work/mnt/aosp
+fi
+export AOSP_ROOT
+
 function _set-android-build-env-pre {
-    if [ -e $HOME/work/aosp/kernel/goldfish/.build/sdcard.bash ]; then
-        source $HOME/work/aosp/kernel/goldfish/.build/sdcard.bash
+    if [ -e ${AOSP_ROOT}/kernel/goldfish/.build/sdcard.bash ]; then
+        source ${AOSP_ROOT}/kernel/goldfish/.build/sdcard.bash
     fi
     if ! [ "`uname`" == "Linux" ]; then
         export PATH=/bin:/usr/bin:$PATH
@@ -9,8 +16,8 @@ function _set-android-build-env-pre {
 }
 
 function __my-emulator {
-    local possible_kernel=~/work/aosp/kernel/goldfish/out/arch/x86/boot/bzImage
-    local possible_sdcard=~/work/aosp/data/SdCard4Emulator.img
+    local possible_kernel=${AOSP_ROOT}/kernel/goldfish/out/arch/x86/boot/bzImage
+    local possible_sdcard=${AOSP_ROOT}/data/SdCard4Emulator.img
     local fixed_flags="-writable-system -show-kernel"
     local timestamp=`bdate`
     local kmsg_log_dir=~/logs/goldfish/kmsg
@@ -34,7 +41,7 @@ function __my-emulator {
 
 function set-android-build-env {
     _set-android-build-env-pre
-    cd ~/work/aosp/pie
+    cd ${AOSP_ROOT}/pie
     source build/envsetup.sh
     lunch aosp_x86-eng
     alias my-emulator='__my-emulator'
@@ -42,7 +49,7 @@ function set-android-build-env {
 
 function goto-goldfish-dirs {
     # goldfish kernel root
-    local gkr="$HOME/work/aosp/pie/kernel_goldfish"
+    local gkr="${AOSP_ROOT}/pie/kernel_goldfish"
     local menu=(
         "kernel-root: cd $gkr"
         "kernel-out: cd $gkr/out"
