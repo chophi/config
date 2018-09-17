@@ -37,6 +37,7 @@ function __prompt_command_powerline {
     local pwd=${PWD/#$HOME/\~} # Replace /home/user with ~.
     local Res='\e[0m'    # Text Reset
 
+    PS1+="\n"
     PS1+="\\[$Bla$On_Gre ╭⊂\\]"
     PS1+=""\\[$(pl_segment_start $Gre $On_Red)\\]""
     if [[ $BRANCH != "" ]]; then # Check if there is a branch in this directory.
