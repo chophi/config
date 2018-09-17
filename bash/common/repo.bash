@@ -1,11 +1,31 @@
 export REPO_URL='https://mirrors.tuna.tsinghua.edu.cn/git/git-repo'
-alias repo-init-android-o='repo init -u https://aosp.tuna.tsinghua.edu.cn/platform/manifest -b android-8.0.0_r13'
-alias repo-init-android-p='repo init -u https://aosp.tuna.tsinghua.edu.cn/platform/manifest -b android-9.0.0_r3'
-
-alias repo-sync='mkdir -p .log && repo sync -j8 2>&1 | tee .log/sync-`bdate`.log'
-alias repo-sync-current='mkdir -p .log && repo sync -j8 -c 2>&1 | tee .log/sync-`bdate`.log; echo `bdate` > .log/sync-completed-timestamp'
-alias repo-sync-current-local='mkdir -p .log && repo sync -j8 -c -l 2>&1 | tee .log/sync-`bdate`.log'
-alias repo-make='mkdir -p .log && make -j8 2>&1 | tee .log/make-`bdate`.log'
+function repo-init-android-o {
+    repo init -u https://aosp.tuna.tsinghua.edu.cn/platform/manifest -b android-8.0.0_r13
+}
+function repo-init-android-p {
+    repo init -u https://aosp.tuna.tsinghua.edu.cn/platform/manifest -b android-9.0.0_r3
+}
+function repo-init-emu-master {
+    repo init -u https://aosp.tuna.tsinghua.edu.cn/platform/manifest -b emu-master-qemu
+}
+function repo-init-studio-master {
+    repo init -u https://aosp.tuna.tsinghua.edu.cn/platform/manifest -b studio-master-dev
+}
+function repo-sync {
+    mkdir -p .log && repo sync -j8 2>&1 | tee .log/sync-`bdate`.log
+}
+function repo-sync-current-no-log-on-terminal {
+    mkdir -p .log && repo sync -j8 -c > .log/sync-`bdate`.log 2>&1; echo `bdate` > .log/sync-completed-timestamp
+}
+function repo-sync-current {
+    mkdir -p .log && repo sync -j8 -c 2>&1 | tee .log/sync-`bdate`.log; echo `bdate` > .log/sync-completed-timestamp
+}
+function repo-sync-current-local {
+    mkdir -p .log && repo sync -j8 -c -l 2>&1 | tee .log/sync-`bdate`.log
+}
+function repo-make {
+    mkdir -p .log && make -j8 2>&1 | tee .log/make-`bdate`.log
+}
 
 function repo-top {
     curpath=$PWD
@@ -44,4 +64,7 @@ function gotod {
     cd ${dir_list[$x]}
 }
 
+function clone-goldfish-kernel {
+    git clone https://aosp.tuna.tsinghua.edu.cn/android/kernel/goldfish.git
+}
 alias gotop='cd `repo-top`'

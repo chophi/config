@@ -10,6 +10,8 @@ append-to-variable INFOPATH "/usr/local/texlive/2015/texmf-dist/doc/info"
 
 _head_to_path_variable=(
     $HOME/.emacs-pkg
+    /usr/lib/jvm/java-8-openjdk-amd64/bin #prefer java 8
+    /usr/lib/jvm/java-7-openjdk-amd64/bin
 )
 
 _append_to_path_variable=(
