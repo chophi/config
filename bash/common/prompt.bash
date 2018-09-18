@@ -36,9 +36,12 @@ function __prompt_command_powerline {
     local BRANCH=`__my_git_ps1` # Get the branch name.
     local pwd=${PWD/#$HOME/\~} # Replace /home/user with ~.
     local Res='\e[0m'    # Text Reset
+
     local date=`date +"%m.%d-%H.%M.%S"`
-    local host_name="${USER}@${HOSTNAME}"
     local branch="${PBranch} ${BRANCH}"
+
+    local host_name="${USER}@`echo ${HOSTNAME} | cut -d '.' -f 1`"
+
     local cur_path=${PWD/$HOME/\~}
     if [ ${#cur_path} -gt 60 ]; then
         cur_path=...${cur_path:${#cur_path}-57:57}
@@ -47,7 +50,7 @@ function __prompt_command_powerline {
     local three_lines=0
     local total_length=0
     ((total_length=${#cur_path}+${#date}+${#host_name}+${#branch}))
-    if [ ${total_length} -ge 70 ]; then
+    if [ ${total_length} -ge 64 ]; then
         three_lines=1
     fi
 
