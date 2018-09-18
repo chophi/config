@@ -36,22 +36,41 @@ function __prompt_command_powerline {
     local BRANCH=`__my_git_ps1` # Get the branch name.
     local pwd=${PWD/#$HOME/\~} # Replace /home/user with ~.
     local Res='\e[0m'    # Text Reset
+    local date=`date +"%m.%d-%H.%M.%S"`
+    local host_name="${USER}@${HOSTNAME}"
+    local branch="${PBranch} ${BRANCH}"
+    local cur_path=${PWD/$HOME/\~}
+    if [ ${#cur_path} -gt 60 ]; then
+        cur_path=...${cur_path:${#cur_path}-57:57}
+    fi
+
+    local three_lines=0
+    local total_length=0
+    ((total_length=${#cur_path}+${#date}+${#host_name}+${#branch}))
+    if [ ${total_length} -ge 70 ]; then
+        three_lines=1
+    fi
 
     PS1+="\n"
     PS1+="\\[$Bla$On_Gre ╭⊂\\]"
     PS1+=""\\[$(pl_segment_start $Gre $On_Red)\\]""
     if [[ $BRANCH != "" ]]; then # Check if there is a branch in this directory.
-        PS1+=""\\[$(pl_segment_hasafter $Bla$On_Red `date +"%m.%d-%H.%M.%S"` $Red $On_Gre)\\]""
-        PS1+="\\[$(pl_segment_hasafter $BBla$On_Gre "${PBranch} ${BRANCH}" $Gre $On_Blu)\\]"
+        PS1+=""\\[$(pl_segment_hasafter $Bla$On_Red "$date" $Red $On_Gre)\\]""
+        PS1+="\\[$(pl_segment_hasafter $BBla$On_Gre "$branch" $Gre $On_Blu)\\]"
     else
-        PS1+=""\\[$(pl_segment_hasafter $Bla$On_Red `date +"%m.%d-%H.%M.%S"` $Red $On_Blu)\\]""
+        PS1+=""\\[$(pl_segment_hasafter $Bla$On_Red "$date" $Red $On_Blu)\\]""
     fi
 
-    PS1+="\\[$(pl_segment_hasafter $Bla$On_Blu "${USER}@${HOSTNAME}" $Blu $On_Yel)\\]" # Add user@hostname
+    if [ $three_lines -eq 1 ]; then
+        PS1+="\\[$(pl_segment $Bla$On_Blu "${host_name}" $Blu)\\]"
+    else
+        PS1+="\\[$(pl_segment_hasafter $Bla$On_Blu "${host_name}" $Blu $On_Yel)\\]"
+    fi
 
-    local cur_path=${PWD/$HOME/\~}
-    if [ ${#cur_path} -gt 35 ]; then
-        cur_path=...${cur_path:${#cur_path}-32:32}
+    if [ $three_lines -eq 1 ]; then
+        PS1+="\n"
+        PS1+="\\[$Bla$On_Gre ⎮⟢\\]"
+        PS1+=""\\[$(pl_segment_start $Gre $On_Yel)\\]""
     fi
 
     PS1+="\\[$(pl_segment $Bla$On_Yel "${cur_path}" $Yel)\\]" # Add current directory
