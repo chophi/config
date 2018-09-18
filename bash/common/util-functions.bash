@@ -87,3 +87,12 @@ function run_item_in_menu {
         echo "invalid selection, do nothing"
     fi
 }
+
+function repeat {
+    local times=$1
+    local i
+    shift 1
+    for ((i=1; i<=$times; ++i)) do
+        $@
+    done
+}
