@@ -81,6 +81,10 @@ function __prompt_command_powerline {
     PS1+="\\[$Bla$On_Gre ╰⊂\\]"
     PS1+=""\\[$(pl_segment_start $Gre $On_Bla)\\]" "
     PS1+="${Res}"
+
+    PS2="\\[$Bla$On_Gre ..\\]"
+    PS2+=""\\[$(pl_segment_start $Gre $On_Bla)\\]" "
+    PS2+="${Res}"
 }
 
 function __prompt_command_test {
