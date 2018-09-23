@@ -7,7 +7,7 @@ export ANDROID_NDK_R14B_HOME=~/Library/Android/android-ndk-r14b/
 export ANDROID_NDK_R10E_HOME=~/Library/Android/android-ndk-r10e/
 export ANDROID_NDK_HOME=$ANDROID_NDK_R14B_HOME
 
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.*.jdk/Contents/Home
+export JAVA_HOME=`echo /Library/Java/JavaVirtualMachines/jdk1.8.*.jdk/Contents/Home`
 export JRE_HOME=$JAVA_HOME/jre
 export CLASSPATH=.:$JAVA_HOME/lib:$JRE_HOME/lib:$CLASSPATH
 
