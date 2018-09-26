@@ -7,6 +7,8 @@ append-to-variable LD_LIBRARY_PATH "/usr/local/lib"
 append-to-variable MANPATH "$HOME/git-repo/depot_tools/man/"
 append-to-variable MANPATH "/usr/local/texlive/2015/texmf-dist/doc/man"
 append-to-variable INFOPATH "/usr/local/texlive/2015/texmf-dist/doc/info"
+append-to-variable MANPATH "/home/linuxbrew/.linuxbrew/share/man"
+append-to-variable INFOPATH "/home/linuxbrew/.linuxbrew/share/man"
 
 _head_to_path_variable=(
     $HOME/.emacs-pkg
@@ -23,6 +25,7 @@ _append_to_path_variable=(
     $HOME/software/swift-dev/bin
     $HOME/git-repo/depot_tools
     /usr/local/texlive/2015/bin/x86_64-linux
+    /home/linuxbrew/.linuxbrew/bin
 )
 
 head-to-path "${_head_to_path_variable[@]}"
