@@ -1,4 +1,4 @@
-function _adb {
+function adb {
     if [ -e $HOME/git-repo/config/private/bin/linux/adb ]; then
         CURRENT_ADB=$HOME/git-repo/config/private/bin/linux/adb
     else
@@ -6,8 +6,6 @@ function _adb {
     fi
     $CURRENT_ADB $@
 }
-
-alias adb='_adb'
 
 function adb-press-vol-up {
     adb shell input keyevent 24
