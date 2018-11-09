@@ -18,19 +18,10 @@ function gotop {
         echo "You are not in a repo project"
         return 1
     fi
-    cd $_tmp_repo_dir
-}
-
-function gotod {
-    local _tmp_repo_dir
-    if ! repo-top _tmp_repo_dir; then
-        echo "You are not in a repo project"
-        return 1
-    fi
 
     if [ -z "$1" ]; then
-        echo 'please provide a regexp to grep'
-        return 2
+        cd $_tmp_repo_dir
+        return 0
     fi
 
     local dir_list=(`cd $_tmp_repo_dir && repo list | grep "$1" | cut -d ':' -f 1`)
