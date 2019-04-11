@@ -1,3 +1,17 @@
+export REPO_URL='https://mirrors.tuna.tsinghua.edu.cn/git/git-repo'
+function repo-init-android-o {
+    repo init -u https://aosp.tuna.tsinghua.edu.cn/platform/manifest -b android-8.0.0_r13
+}
+function repo-init-android-p {
+    repo init -u https://aosp.tuna.tsinghua.edu.cn/platform/manifest -b android-9.0.0_r3
+}
+function repo-init-emu-master {
+    repo init -u https://aosp.tuna.tsinghua.edu.cn/platform/manifest -b emu-master-qemu
+}
+function repo-init-studio-master {
+    repo init -u https://aosp.tuna.tsinghua.edu.cn/platform/manifest -b studio-master-dev
+}
+
 if [ -e $HOME/work/aosp ]; then
     AOSP_ROOT=$HOME/work/aosp
 elif [ -e $HOME/work/mnt/aosp ]; then
