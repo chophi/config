@@ -1,3 +1,2 @@
 #!/bin/bash
-# exec emacsclient -nw --alternate-editor="" -c "$@"
-notify-send "please use ef instead"
+emacsclient -s ~/.emacs.d/server/server "$@"

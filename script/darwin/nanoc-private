@@ -1,0 +1,4 @@
+#!/bin/bash
+if [ -e $HOME/nanoc-site-private ]; then
+   cd $HOME/nanoc-site-private && nanoc view -p 3001
+fi

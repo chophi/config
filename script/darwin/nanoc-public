@@ -1,0 +1,4 @@
+#!/bin/bash
+if [ -e $HOME/nanoc-site ]; then
+   cd $HOME/nanoc-site && nanoc view -p 3000
+fi
