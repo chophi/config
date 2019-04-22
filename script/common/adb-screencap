@@ -5,5 +5,8 @@ if [ $# -ge 1 ]; then
 else
     FILE_NAME="screen.png"
 fi
-adb shell screencap -p | perl -pe 's/\x0D\x0A/\x0A/g' > $FILE_NAME
+# adb shell screencap -p | perl -pe 's/\x0D\x0A/\x0A/g' > $FILE_NAME
+adb root
+adb shell input keyevent 26
+adb shell screencap -p > $FILE_NAME
 
