@@ -28,8 +28,8 @@ function cat-which {
     fi
 }
 
-alias E="SUDO_EDITOR=\"emacsclient\" sudo -e"
-export EDITOR=emacsclient
+export EDITOR=ec
+alias E="SUDO_EDITOR=\"ec\" sudo -e"
 alias reboot="echo Do you really want to reboot?"
 
 alias bulletin_message='git commit --amend -m "`git log --format=%B -n 1`"'
