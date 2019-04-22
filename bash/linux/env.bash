@@ -26,6 +26,7 @@ _append_to_path_variable=(
     $HOME/git-repo/depot_tools
     /usr/local/texlive/2015/bin/x86_64-linux
     /home/linuxbrew/.linuxbrew/bin
+    $HOME/.cargo/bin
 )
 
 head-to-path "${_head_to_path_variable[@]}"
