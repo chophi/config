@@ -17,7 +17,7 @@ if [ "$MY_HOST_SYSTEM" == "linux" ]; then
     alias open=nautilus
 fi
 
-alias new-emacs-frame='ef ~/.ef-file'
+alias new-emacs-frame='ec -c ~/.ef-file'
 
 function cat-which {
     local file=`which $1`
