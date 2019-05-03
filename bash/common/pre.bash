@@ -46,6 +46,9 @@ alias append-to-path='append-to-variable PATH '
 function clean-variable {
     local new_path=""
     local IFS=":"
+    if [ $# -ge 2 ]; then
+        IFS="$2"
+    fi
     for path in `printenv $1`; do
         local new=1
         for p in ${new_path}; do

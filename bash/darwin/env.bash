@@ -86,3 +86,9 @@ _append_to_man_variable=(
 )
 append-to-variable MANPATH "${_append_to_man_variable[@]}"
 unset _append_to_man_variable
+
+if [ -e /usr/local/Cellar/llvm/*/bin/clang ]; then
+    head-to-path /usr/local/opt/llvm/bin
+    export LDFLAGS="-L/usr/local/opt/llvm/lib $LDFLAGS"
+    export CPPFLAGS="-I/usr/local/opt/llvm/include $CPPFLAGS"
+fi
