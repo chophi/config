@@ -61,7 +61,7 @@ function clean-variable {
             if [ "$new_path" == "" ]; then
                 new_path=$path
             else
-                new_path=$new_path:$path
+                new_path=${new_path}${IFS}${path}
             fi
         fi
     done

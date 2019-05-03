@@ -91,4 +91,12 @@ if [ -e /usr/local/Cellar/llvm/*/bin/clang ]; then
     head-to-path /usr/local/opt/llvm/bin
     export LDFLAGS="-L/usr/local/opt/llvm/lib $LDFLAGS"
     export CPPFLAGS="-I/usr/local/opt/llvm/include $CPPFLAGS"
+    _first_include_found=0
+    for path in `/usr/bin/clang++ -E -x c++ - -v < /dev/null 2>&1 | grep -o "/Applications/Xcode.app/Contents/[a-zA-Z0-9.-/]*"`; do
+        if [ $_first_include_found -eq 1 ] || ls $path/*.h >/dev/null 2>&1 ; then
+            _first_include_found=1
+            export CPPFLAGS="$CPPFLAGS -I$path"
+        fi
+    done
+    unset _first_include_found
 fi
