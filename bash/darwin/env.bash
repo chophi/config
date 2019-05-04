@@ -82,7 +82,7 @@ source-if-exist "${HOME}/.bashrc_gitignore"
 _append_to_man_variable=(
     /usr/local/share/man
     /usr/share/man
-    `find /usr/local/Cellar -name "man"`
+    `find /usr/local/Cellar -name "man" -maxdepth 5`
 )
 append-to-variable MANPATH "${_append_to_man_variable[@]}"
 unset _append_to_man_variable
