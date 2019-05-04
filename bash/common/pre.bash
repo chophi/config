@@ -164,7 +164,7 @@ function check_time {
     eval $command
     local post_time=`$date_command`
     ((time_took=post_time-pre_time))
-    CHECK_COMMAND_TIME_MATRIX[$command]="(${time_took}${time_lapsed_unit})"
+    CHECK_COMMAND_TIME_MATRIX["$command"]="(${time_took}${time_lapsed_unit})"
 }
 
 function _source_bash_files {
@@ -185,7 +185,7 @@ function check-command-time-matrix {
         fi
     done
     for com in "${!CHECK_COMMAND_TIME_MATRIX[@]}"; do
-        printf "|%-${width}s| %-10s|\n" "$com" ${CHECK_COMMAND_TIME_MATRIX[$com]}
+        printf "|%-${width}s| %-10s|\n" "$com" ${CHECK_COMMAND_TIME_MATRIX["$com"]}
     done
 }
 
