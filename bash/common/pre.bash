@@ -43,7 +43,7 @@ alias append-to-variable='_add_to_variable append '
 alias head-to-path='head-to-variable PATH '
 alias append-to-path='append-to-variable PATH '
 
-function clean-variable {
+function _clean_variable_no_awk {
     local new_path=""
     local IFS=":"
     if [ $# -ge 2 ]; then
@@ -52,6 +52,7 @@ function clean-variable {
     for path in `printenv $1`; do
         local new=1
         for p in ${new_path}; do
+            p=${p/%\//}         # remove the trailing /
             if [ "$p" == "$path" ]; then
                 new=0
                 break
@@ -68,6 +69,34 @@ function clean-variable {
     export $1="$new_path"
 }
 
+function _clean_variable_with_awk {
+    local field_separator=":"
+    if [ $# -ge 2 ]; then
+        field_separator="$2"
+    fi
+    local new_value=`awk -v FS="$field_separator" -v OFS="$field_separator" '
+    {
+        delete seen
+        sep=""
+        for (i=1; i<=NF; i++) {
+            sub(/\/$/, "", $i)
+            if (!seen[$i]++) {
+                printf "%s%s", sep, $i
+            }
+            sep=OFS
+        }
+        print ""
+    }' <<< "$(printenv $1)"`
+    export $1="$new_value"
+}
+
+function clean-variable {
+    if [ -e /usr/bin/awk ]; then
+        _clean_variable_with_awk "$@"
+    else
+        _clean_variable_no_awk "$@"
+    fi
+}
 # 0: get all pre.bash except the ${CONFIG_ROOT_DIR}/bash/common/pre.bash
 # 1: get all *.bash except pre.bash and post.bash
 # 2: get all post.bash
