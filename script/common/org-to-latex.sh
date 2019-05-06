@@ -7,7 +7,7 @@ fi
 
 filename=$(realpath $1)
 
-if ![ -e $filename ]; then
+if ! [ -e $filename ]; then
     echo "$filenane is not exist!"
     exit 1
 fi
