@@ -15,13 +15,16 @@ function create-python-virtualenv {
 function choose-python-virtualenv {
     deactive > /dev/null 2>&1
     local choice
-    if [ -e $HOME/.py-vir-env/py3 ]; then
-        choice=3
+    if [ $# -ge 1 ]; then
+        choice=$1
+    else
+        if [ -e $HOME/.py-vir-env/py3 ]; then
+            choice=3
+        fi
+        if [ -e $HOME/.py-vir-env/py2 ]; then
+            ((choice=choice+2))
+        fi
     fi
-    if [ -e $HOME/.py-vir-env/py2 ]; then
-        ((choice=choice+2))
-    fi
-
     if [ $choice -gt 3 ]; then
         echo -n "Both py2 and py3 are exist, input your choice(2/3): "
         read choice
@@ -35,8 +38,10 @@ function choose-python-virtualenv {
         export PYTHONHOME=$HOME/.py-vir-env/py$choice
         export VIRTUAL_ENV=$HOME/.py-vir-env/py$choice
         export PATH=$VIRTUAL_ENV/bin:$PATH
-        emacsclient -s $EMACS_SOCKET_NAME -e "(cu-set-python-virtualenv \"$PYTHONHOME\")"
         clean-variable PATH
+        if [ $# -le 1 ]; then
+            emacsclient -s ~/.emacs.d/server/server -e "(cu-set-python-virtualenv \"$PYTHONHOME\")"
+        fi
     fi
 }
 

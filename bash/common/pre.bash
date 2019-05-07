@@ -91,6 +91,9 @@ function _clean_variable_with_awk {
 }
 
 function clean-variable {
+    if [ "`printenv $1`" == "" ]; then
+        return 0;
+    fi
     if [ -e /usr/bin/awk ]; then
         _clean_variable_with_awk "$@"
     else
