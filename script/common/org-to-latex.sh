@@ -30,5 +30,8 @@ else
     (cd ${tmp_dir} && latexmk -pdf -f -shell-escape ${bn}.tex)
 fi
 
-mkdir -p ${HOME}/ORG-PDF
-mv ${tmp_dir}/${bn}.pdf ${HOME}/ORG-PDF
+if [ -e $HOME/ORG-PDF ]; then
+    mv ${HOME}/ORG-PDF ${HOME}/pdf.org
+fi
+mkdir -p $HOME/pdf.org
+mv ${tmp_dir}/${bn}.pdf ${HOME}/pdf.org
