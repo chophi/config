@@ -63,7 +63,6 @@ _append_to_path_variable=(
     /usr/local/Cellar/git/2.10.0/bin
     /usr/local/Cellar/node/8.1.4/bin/
     $HOME/git-repo/depot_tools
-    $HOME/.rustup/toolchains/stable-x86_64-apple-darwin/bin
     $HOME/.cargo/bin
 )
 
