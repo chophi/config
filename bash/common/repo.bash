@@ -112,3 +112,21 @@ function clone-goldfish-kernel {
     git clone https://aosp.tuna.tsinghua.edu.cn/android/kernel/goldfish.git
 }
 
+function repo-init-my-repos {
+    local username
+    echo -n "Input username: "
+    read username
+
+    echo -n "Public or private manifest? (public/private): "
+    local pubvar
+    read pubvar
+
+    local command="repo init --no-repo-verify --repo-url=ssh://git@gitee.com/$username/git-repo.git --repo-branch=master --manifest-url=ssh://git@gitee.com/$username/${pubvar}-manifests.git --manifest-branch=default"
+
+    echo -e "command is [$command] \n (y/n) ?"
+    local ans
+    read ans
+    if [ "$ans" == "y" ] || [ "$ans" == "yes" ]; then
+        $command
+    fi
+}
