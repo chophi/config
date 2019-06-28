@@ -108,11 +108,22 @@ function repo-init-my-repos {
     echo -n "Input username: "
     read username
 
-    echo -n "Public or private manifest? (public/private): "
     local pubvar
-    read pubvar
+    while [ "$pubvar" != "public" ] && [ "$pubvar" != "private" ]; do
+        echo -n "Public or private manifest? (public/private): "
+        read pubvar
+    done
 
-    local command="repo init --no-repo-verify --repo-url=ssh://git@gitee.com/$username/git-repo.git --repo-branch=master --manifest-url=ssh://git@gitee.com/$username/${pubvar}-manifests.git --manifest-branch=default --config-name"
+    local manifest_file="default.xml"
+    if [ "$pubvar" == "private" ]; then
+        while [ "$manifest_file" != "work" ] && [ "$manifest_file" != "home" ]; do
+            echo -n "Work or Home? (work/home): "
+            read manifest_file
+        done
+        manifest_file=$manifest_file.xml
+    fi
+
+    local command="repo init --no-repo-verify --repo-url=ssh://git@gitee.com/$username/git-repo.git --repo-branch=master --manifest-url=ssh://git@gitee.com/$username/${pubvar}-manifests.git --manifest-branch=default --config-name -m $manifest_file"
 
     echo -n -e "command is [$command] \n (y/n)? Input your choice: "
     local ans
