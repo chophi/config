@@ -121,9 +121,9 @@ function repo-init-my-repos {
     local pubvar
     read pubvar
 
-    local command="repo init --no-repo-verify --repo-url=ssh://git@gitee.com/$username/git-repo.git --repo-branch=master --manifest-url=ssh://git@gitee.com/$username/${pubvar}-manifests.git --manifest-branch=default"
+    local command="repo init --no-repo-verify --repo-url=ssh://git@gitee.com/$username/git-repo.git --repo-branch=master --manifest-url=ssh://git@gitee.com/$username/${pubvar}-manifests.git --manifest-branch=default --config-name"
 
-    echo -e "command is [$command] \n (y/n) ?"
+    echo -n -e "command is [$command] \n (y/n)? Input your choice: "
     local ans
     read ans
     if [ "$ans" == "y" ] || [ "$ans" == "yes" ]; then
