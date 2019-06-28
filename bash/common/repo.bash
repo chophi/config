@@ -46,7 +46,7 @@ function gotop {
 function _compose-repo-command {
     local to_receive_command=$1
     local log_prefix=$2
-    local no_log_on_terminal=$3
+    local log_on_terminal=$3
     shift 3
     local command="$@"
     local _tmp_repo_dir
@@ -54,10 +54,10 @@ function _compose-repo-command {
         eval $to_receive_command="\"echo You are not in a repo project && /bin/false\""
         return 1
     fi
-    if [ "$no_log_on_terminal" == "yes" ]; then
-        eval $to_receive_command="\"cd $_tmp_repo_dir && mkdir -p .log; $command > .log/$log_prefix-`bdate`.log 2>&1\""
-    else
+    if [ "$log_on_terminal" == "yes" ]; then
         eval $to_receive_command="\"cd $_tmp_repo_dir && mkdir -p .log; $command 2>&1 | tee .log/$log_prefix-`bdate`.log\""
+    else
+        eval $to_receive_command="\"cd $_tmp_repo_dir && mkdir -p .log; $command > .log/$log_prefix-`bdate`.log 2>&1\""
     fi
 }
 
@@ -75,8 +75,9 @@ function repo-clean-logs {
         $command
     fi
 }
+
 function _repo-run {
-    local no_log_on_terminal=$1
+    local log_on_terminal=$1
     local repo_subcommand=$2
     shift 2
     local extra
@@ -84,28 +85,18 @@ function _repo-run {
         extra="echo `bdate` > .log/sync-completed-timestamp; repo"
     fi
     local _tmp_command
-    if _compose-repo-command _tmp_command $repo_subcommand $no_log_on_terminal $extra  $repo_subcommand $@; then
+    if _compose-repo-command _tmp_command $repo_subcommand $log_on_terminal $extra  $repo_subcommand $@; then
         echo $_tmp_command
     fi
     eval $_tmp_command
 }
-function repo-sync-current {
-    _repo-run "no" sync -j8 -c
+
+function repo-run {
+    _repo-run "yes" $@
 }
-function repo-sync-current-local {
-    _repo-run "no" sync -j8 -c -l
-}
-function repo-make {
-    _repo-run "no" make -j16
-}
-function repo-make-no-terminal-log {
-    _repo-run "yes" make -j16
-}
-function repo-sync-current-no-terminal-log {
-    _repo-run "yes" sync -j8 -c
-}
-function repo-sync-current-local-no-terminal-log {
-    _repo-run "yes" sync -j8 -c -l
+
+function repo-run-no-log {
+    _repo-run "no" $@
 }
 
 function clone-goldfish-kernel {
