@@ -1,6 +1,6 @@
 function adb {
-    if [ -e $HOME/git-repo/config/private/bin/$MY_HOST_SYSTEM/adb ]; then
-        CURRENT_ADB=$HOME/git-repo/config/private/bin/$MY_HOST_SYSTEM/adb
+    if [ -e ${CONFIG_PRIVATE_ROOT_DIR}/bin/$MY_HOST_SYSTEM/adb ]; then
+        CURRENT_ADB=${CONFIG_PRIVATE_ROOT_DIR}/bin/$MY_HOST_SYSTEM/adb
     else
         CURRENT_ADB=`which adb`
     fi

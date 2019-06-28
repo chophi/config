@@ -4,7 +4,6 @@ export CCACHE_DIR=/local/ccache
 append-to-variable PKG_CONFIG_PATH "/usr/local/lib/pkgconfig"
 append-to-variable LD_LIBRARY_PATH "$HOME/bin/lib"
 append-to-variable LD_LIBRARY_PATH "/usr/local/lib"
-append-to-variable MANPATH "$HOME/git-repo/depot_tools/man/"
 append-to-variable MANPATH "/usr/local/texlive/2015/texmf-dist/doc/man"
 append-to-variable INFOPATH "/usr/local/texlive/2015/texmf-dist/doc/info"
 append-to-variable MANPATH "/home/linuxbrew/.linuxbrew/share/man"
@@ -23,7 +22,6 @@ _append_to_path_variable=(
     $HOME/build/android-studio/bin
     $HOME/software/racket/bin/
     $HOME/software/swift-dev/bin
-    $HOME/git-repo/depot_tools
     /usr/local/texlive/2015/bin/x86_64-linux
     /home/linuxbrew/.linuxbrew/bin
     $HOME/.cargo/bin

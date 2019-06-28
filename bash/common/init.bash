@@ -14,7 +14,9 @@ if [ -f /usr/local/bin/realpath ]; then
 else
     REALPATH_PROGRAM=realpath
 fi
+
 export CONFIG_ROOT_DIR=$(dirname $(dirname $(dirname `$REALPATH_PROGRAM ${BASH_SOURCE[0]}`)))
+export CONFIG_PRIVATE_ROOT_DIR=$(dirname $(dirname $(dirname `$REALPATH_PROGRAM ${BASH_SOURCE[0]}.private`)))
 
 source ${CONFIG_ROOT_DIR}/bash/common/pre.bash
 source-pre-bashes

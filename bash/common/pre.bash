@@ -107,8 +107,8 @@ function _get_filtered_bash_list {
     local search_dirs=(
         "${CONFIG_ROOT_DIR}/bash/common"
         "${CONFIG_ROOT_DIR}/bash/${MY_HOST_SYSTEM}"
-        "${CONFIG_ROOT_DIR}/private/bash/common"
-        "${CONFIG_ROOT_DIR}/private/bash/${MY_HOST_SYSTEM}"
+        "${CONFIG_PRIVATE_ROOT_DIR}/bash/common"
+        "${CONFIG_PRIVATE_ROOT_DIR}/bash/${MY_HOST_SYSTEM}"
     )
     local flist=""
     if [ $1 -eq 0 ]; then

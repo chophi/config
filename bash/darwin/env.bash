@@ -14,7 +14,6 @@ export CLASSPATH=.:$JAVA_HOME/lib:$JRE_HOME/lib:$CLASSPATH
 append-to-variable PKG_CONIFG_PATH /usr/local/lib/pkgconfig
 append-to-variable LD_LIBRARY_PATH "$HOME/bin/lib"
 append-to-variable LD_LIBRARY_PATH "/usr/local/lib"
-append-to-variable MANPATH "$HOME/git-repo/depot_tools/man/"
 append-to-variable MANPATH "/usr/local/texlive/2015/texmf-dist/doc/man"
 append-to-variable INFOPATH "/usr/local/texlive/2015/texmf-dist/doc/info"
 
@@ -62,7 +61,6 @@ _head_to_path_variable=(
 _append_to_path_variable=(
     /usr/local/Cellar/git/2.10.0/bin
     /usr/local/Cellar/node/8.1.4/bin/
-    $HOME/git-repo/depot_tools
     $HOME/.cargo/bin
 )
 
