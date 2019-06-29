@@ -123,7 +123,7 @@ function repo-init-my-repos {
         manifest_file=$manifest_file.xml
     fi
 
-    local command="repo init --no-repo-verify --repo-url=ssh://git@gitee.com/$username/git-repo.git --repo-branch=master --manifest-url=ssh://git@gitee.com/$username/${pubvar}-manifests.git --manifest-branch=default --config-name -m $manifest_file"
+    local command="repo init --no-repo-verify --repo-url=ssh://git@gitee.com/$username/git-repo.git --repo-branch=default --manifest-url=ssh://git@gitee.com/$username/${pubvar}-manifests.git --manifest-branch=default --config-name -m $manifest_file"
 
     echo -n -e "command is [$command] \n (y/n)? Input your choice: "
     local ans
