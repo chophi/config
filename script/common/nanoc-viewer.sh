@@ -18,8 +18,8 @@ function do_clean_up {
     killall fswatch 2>/dev/null
 }
 
-public_dir=~/nanoc-site
-private_dir=~/nanoc-site-private
+public_dir=~/repo/public/docs/blog/chophi.io
+private_dir=~/repo/private/writings/blog.private
 
 if [ "$1" != "public" ] && [ "$1" != "private" ]; then
     # do_clean_up
