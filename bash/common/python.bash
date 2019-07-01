@@ -35,13 +35,13 @@ function choose-python-virtualenv {
     fi
 
     if [ -n "$choice" ]; then
-        export PYTHONHOME=$HOME/.py-vir-env/py$choice
-        export VIRTUAL_ENV=$HOME/.py-vir-env/py$choice
-        export PATH=$VIRTUAL_ENV/bin:$PATH
+        # export PYTHONHOME=$HOME/.py-vir-env/py$choice
+        # export VIRTUAL_ENV=$HOME/.py-vir-env/py$choice
+        export PATH=$HOME/.py-vir-env/py$choice/bin:$PATH
         clean-variable PATH
-        if [ $# -le 1 ]; then
-            emacsclient -s ~/.emacs.d/server/server -e "(cu-set-python-virtualenv \"$PYTHONHOME\")"
-        fi
+        # if [ $# -le 1 ]; then
+        #     emacsclient -s ~/.emacs.d/server/server -e "(cu-set-python-virtualenv \"$PYTHONHOME\")"
+        # fi
     fi
 }
 
