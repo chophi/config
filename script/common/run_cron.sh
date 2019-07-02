@@ -1,7 +1,6 @@
-#!/bin/bash
-CONFIG_ROOT_DIR=~/git-repo/config
-MY_HOST_SYSTEM=`uname -a | cut -d " " -f 1 | tr A-Z a-z`
-PATH=$PATH:/usr/local/bin:/usr/local/opt/coreutils/libexec/gnubin:/usr/bin:/bin:/sbin:/usr/sbin:${CONFIG_ROOT_DIR}/bin/common:${CONFIG_ROOT_DIR}/bin/common/decompile-apk:${CONFIG_ROOT_DIR}/bin/${MY_HOST_SYSTEM}:${CONFIG_ROOT_DIR}/private/bin/common:${CONFIG_ROOT_DIR}/private/bin/${MY_HOST_SYSTEM}:${CONFIG_ROOT_DIR}/script/common:${CONFIG_ROOT_DIR}/script/${MY_HOST_SYSTEM}:${CONFIG_ROOT_DIR}/private/script/common:${CONFIG_ROOT_DIR}/private/script/${MY_HOST_SYSTEM}
+#!/usr/local/bin/bash
+
+source ~/.bash_environment_setup
 
 NAME=$1
 COMMAND=$2
@@ -13,7 +12,7 @@ TIME=`/bin/date +"%Y.%m.%d-%H.%M.%S"`
 LOG_FILE=$FOLDER/$NAME-$TIME
 mkdir -p $FOLDER
 # remove the old log, and only remain 10 log file
-EXIST_LOG_FILES=(`ls $FOLDER/$NAME-[0-2]*`)
+EXIST_LOG_FILES=(`ls $FOLDER/$NAME-[0-2]* 2>/dev/null`)
 # the /usr/bin/seq and /usr/local/opt/coreutils/libexec/gnubin/seq
 # behave different, the first can use `seq 10 1` to product a decrease sequence.
 if [ 10 -le ${#EXIST_LOG_FILES[@]} ]; then
@@ -40,18 +39,23 @@ fi
 
 precondition_files=(
     $HOME/.cron_precondition_check.py
-    $HOME/git-repo/config/private/config/common/cron_precondition_check.py
-    $HOME/git-repo/config/private/config/${MY_HOST_SYSTEM}/cron_precondition_check.py
+    ${CONFIG_PRIVATE_ROOT_DIR}/config/common/cron_precondition_check.py
+    ${CONFIG_PRIVATE_ROOT_DIR}/config/${MY_HOST_SYSTEM}/cron_precondition_check.py
 )
 
 for script in "${precondition_files[@]}"; do
-    if [ -f $script ] && [ "`$script $NAME`" != "yes" ]; then
-        echo "[$NAME]: precondition check fail on $script, won't run" >> $MAIN_LOG_FILE
-        exit 0
+    if [ -f $script ] ; then
+        if [ "`$script $NAME`" != "yes" ]; then
+            echo "[$NAME]: precondition check fail on $script, won't run" >> $MAIN_LOG_FILE
+            exit 0
+        else
+            echo "[$NAME]: precondition check pass on $script." >> $MAIN_LOG_FILE
+        fi
     fi
 done
 
 echo "$PPID $LOG_FILE" > $RUNNING_FILE
+echo -e "Before run command, the Path is:\n${PATH}\n" >> $LOG_FILE
 $COMMAND $OTHER_ARGS >> $LOG_FILE 2>&1
 rm $RUNNING_FILE
 
