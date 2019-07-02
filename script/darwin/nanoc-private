@@ -1,4 +1,5 @@
 #!/bin/bash
-if [ -e $HOME/nanoc-site-private ]; then
-   cd $HOME/nanoc-site-private && nanoc view -p 3001
+source ~/.bash_environment_setup
+if [ -n "$NANOC_PRIVATE_SITE" ] && [ -e $NANOC_PRIVATE_SITE ]; then
+   cd $NANOC_PRIVATE_SITE && nanoc view -p 3001
 fi

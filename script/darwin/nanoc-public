@@ -1,18 +1,5 @@
 #!/bin/bash
-if ! [ -e $HOME/nanoc-site ]; then
-    echo "$HOME/nanoc-site doesn't exist"
-    exit 0
+source ~/.bash_environment_setup
+if [ -n "$NANOC_PUBLIC_SITE" ] && [ -e $NANOC_PUBLIC_SITE ]; then
+   cd $NANOC_PUBLIC_SITE && nanoc view -p 3000
 fi
-
-if [ $# -ge 1 ]; then
-   if [ "$1" == "restart" ]; then
-       kill -9 `pgrep -f ".*nanoc view -p 3000"`
-       $HOME/git-repo/config/script/common/run_cron.sh nanoc-public nanoc-public
-       exit 0
-   else
-       echo "invalid parameter"
-       exit 1
-   fi
-fi
-
-cd $HOME/nanoc-site && nanoc view -p 3000
