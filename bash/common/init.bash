@@ -15,6 +15,12 @@ else
     REALPATH_PROGRAM=realpath
 fi
 
+if [ -e /usr/local/bin/bash ]; then
+    export SHELL=/usr/local/bin/bash
+else
+    export SHELL=/bin/bash
+fi
+
 export CONFIG_ROOT_DIR=$(dirname $(dirname $(dirname `$REALPATH_PROGRAM ${BASH_SOURCE[0]}`)))
 export CONFIG_PRIVATE_ROOT_DIR=$(dirname $(dirname $(dirname `$REALPATH_PROGRAM ${BASH_SOURCE[0]}.private`)))
 
