@@ -1,4 +1,9 @@
 #!/bin/bash
-if [ -e $HOME/nanoc-site-private ]; then
-   cd $HOME/nanoc-site-private && nanoc view -p 3001
+source ~/.bash_environment_setup
+if [ -n "$NANOC_PRIVATE_SITE" ] && [ -e $NANOC_PRIVATE_SITE ]; then
+    if ! pgrep -f ".*nanoc view -p 3001" 1>/dev/null 2>&1; then
+        cd $NANOC_PRIVATE_SITE && nanoc view -p 3001
+    else
+        echo "already a running nanoc-private"
+    fi
 fi

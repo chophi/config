@@ -1,0 +1,40 @@
+#!/bin/bash
+if [ -n "$BASH_ENVIRONMENT_SOURCED" ]; then
+    return 0
+fi
+BASH_ENVIRONMENT_SOURCED="true"
+MY_HOST_SYSTEM=`uname -a | cut -d " " -f 1 | tr A-Z a-z`
+if [ -f /usr/local/bin/realpath ]; then
+    REALPATH_PROGRAM=/usr/local/bin/realpath
+else
+    REALPATH_PROGRAM=realpath
+fi
+CONFIG_ROOT_DIR=$(dirname $(dirname $(dirname `$REALPATH_PROGRAM ~/.bashrc`)))
+CONFIG_PRIVATE_ROOT_DIR=$(dirname $(dirname $(dirname `$REALPATH_PROGRAM ~/.bashrc.private`)))
+_path_vars=(
+    /usr/local/bin
+    /usr/local/opt/coreutils/libexec/gnubin
+    /usr/bin
+    /bin
+    /sbin
+    /usr/sbin
+    ${CONFIG_ROOT_DIR}/bin/common
+    ${CONFIG_ROOT_DIR}/bin/common/decompile-apk
+    ${CONFIG_ROOT_DIR}/bin/${MY_HOST_SYSTEM}
+    ${CONFIG_PRIVATE_ROOT_DIR}/bin/common
+    ${CONFIG_PRIVATE_ROOT_DIR}/bin/${MY_HOST_SYSTEM}
+    ${CONFIG_ROOT_DIR}/script/common
+    ${CONFIG_ROOT_DIR}/script/${MY_HOST_SYSTEM}
+    ${CONFIG_PRIVATE_ROOT_DIR}/script/common
+    ${CONFIG_PRIVATE_ROOT_DIR}/script/${MY_HOST_SYSTEM}
+)
+for var in ${_path_vars[@]}; do
+    PATH=$PATH:$var
+done
+unset _path_vars
+
+REPO_PUBLIC_ROOT=`realpath $CONFIG_ROOT_DIR/../../..`/public
+REPO_PRIVATE_ROOT=`realpath $CONFIG_ROOT_DIR/../../..`/private
+NANOC_PUBLIC_SITE=${REPO_PUBLIC_ROOT}/docs/blog/chophi.io
+NANOC_PRIVATE_SITE=${REPO_PRIVATE_ROOT}/writings/blog.private
+VIF_CONFIG=${REPO_PRIVATE_ROOT}/vif

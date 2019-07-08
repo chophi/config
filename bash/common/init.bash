@@ -21,8 +21,8 @@ else
     export SHELL=/bin/bash
 fi
 
-export CONFIG_ROOT_DIR=$(dirname $(dirname $(dirname `$REALPATH_PROGRAM ${BASH_SOURCE[0]}`)))
-export CONFIG_PRIVATE_ROOT_DIR=$(dirname $(dirname $(dirname `$REALPATH_PROGRAM ${BASH_SOURCE[0]}.private`)))
+export CONFIG_ROOT_DIR=$(dirname $(dirname $(dirname `$REALPATH_PROGRAM $HOME/.bashrc`)))
+export CONFIG_PRIVATE_ROOT_DIR=$(dirname $(dirname $(dirname `$REALPATH_PROGRAM $HOME/.bashrc.private`)))
 
 source ${CONFIG_ROOT_DIR}/bash/common/pre.bash
 source-pre-bashes
