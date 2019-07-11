@@ -199,7 +199,7 @@ function source-if-exist {
 alias source-pre-zshes='_source_zsh_files 0'
 alias source-other-zshes='_source_zsh_files 1'
 alias source-post-zshes='_source_zsh_files 2'
-alias sync-zshrc='source ${CONFIG_ROOT_DIR}/zsh/common/init.zsh'
+alias sync-zshrc='source ${CONFIG_ROOT_DIR}/env/common/init.zsh'
 
 __zsh_load_log=""
 function append-to-log {
