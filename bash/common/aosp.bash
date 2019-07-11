@@ -23,7 +23,7 @@ function _set-android-build-env-pre {
     if [ -e ${AOSP_ROOT}/kernel/goldfish/.build/sdcard.bash ]; then
         source ${AOSP_ROOT}/kernel/goldfish/.build/sdcard.bash
     fi
-    if ! [[ "`uname`" == "Linux" ]]; then
+    if ! [ "`uname`" == "Linux" ]; then
         export PATH=/bin:/usr/bin:$PATH
         alias ls='ls -G'
     fi

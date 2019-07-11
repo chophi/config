@@ -1,10 +1,10 @@
 function repo-top {
     local curpath=$PWD
-    while [ ! -d '.repo' ] && [[ "$PWD" != "/" ]]; do
+    while [ ! -d '.repo' ] && [ "$PWD" != "/" ]; do
         cd ..
     done
     local repo_top=$PWD
-    if [[ "$PWD" == "/" ]]; then
+    if [ "$PWD" == "/" ]; then
         cd $curpath
         return 1
     fi
@@ -54,7 +54,7 @@ function _compose-repo-command {
         eval $to_receive_command="\"echo You are not in a repo project && /bin/false\""
         return 1
     fi
-    if [[ "$log_on_terminal" == "yes" ]]; then
+    if [ "$log_on_terminal" == "yes" ]; then
         eval $to_receive_command="\"cd $_tmp_repo_dir && mkdir -p .log; $command 2>&1 | tee .log/$log_prefix-`bdate`.log\""
     else
         eval $to_receive_command="\"cd $_tmp_repo_dir && mkdir -p .log; $command > .log/$log_prefix-`bdate`.log 2>&1\""
@@ -71,7 +71,7 @@ function repo-clean-logs {
     echo "run [$command], (y/n)"
     local x
     read x
-    if [[ $x == "yes" ]] || [[ $x == "y" ]]; then
+    if [ $x == "yes" ] || [ $x == "y" ]; then
         $command
     fi
 }
@@ -81,7 +81,7 @@ function _repo-run {
     local repo_subcommand=$2
     shift 2
     local extra
-    if [[ $repo_subcommand == "sync" ]]; then
+    if [ $repo_subcommand == "sync" ]; then
         extra="echo `bdate` > .log/sync-completed-timestamp; repo"
     fi
     local _tmp_command
@@ -109,14 +109,14 @@ function repo-init-my-repos {
     read username
 
     local pubvar
-    while [[ "$pubvar" != "public" ]] && [[ "$pubvar" != "private" ]]; do
+    while [ "$pubvar" != "public" ] && [ "$pubvar" != "private" ]; do
         echo -n "Public or private manifest? (public/private): "
         read pubvar
     done
 
     local manifest_file="default.xml"
-    if [[ "$pubvar" == "private" ]]; then
-        while [[ "$manifest_file" != "work" ]] && [[ "$manifest_file" != "home" ]]; do
+    if [ "$pubvar" == "private" ]; then
+        while [ "$manifest_file" != "work" ] && [ "$manifest_file" != "home" ]; do
             echo -n "Work or Home? (work/home): "
             read manifest_file
         done
@@ -128,7 +128,7 @@ function repo-init-my-repos {
     echo -n -e "command is [$command] \n (y/n)? Input your choice: "
     local ans
     read ans
-    if [[ "$ans" == "y" ]] || [[ "$ans" == "yes" ]]; then
+    if [ "$ans" == "y" ] || [ "$ans" == "yes" ]; then
         $command
     fi
 }

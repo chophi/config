@@ -8,7 +8,7 @@ function _in_array {
     local menu_items=($@)
     local index=0
     for x in "${menu_items[@]}"; do
-        if [[ "$c" == "$x" ]]; then
+        if [ "$c" == "$x" ]; then
             return $index
         fi
         ((++index))

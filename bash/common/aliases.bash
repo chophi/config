@@ -13,7 +13,7 @@ alias back6='cd ../../../../../..'
 
 alias tree='tree --charset=ASCII'
 
-if [[ "$MY_HOST_SYSTEM" == "linux" ]]; then
+if [ "$MY_HOST_SYSTEM" == "linux" ]; then
     alias open=nautilus
 fi
 
@@ -44,7 +44,7 @@ function bulletin_push {
     command="git push fos HEAD:refs/for/fireos/$branch/${jira_id},aosp_security_bulletin,$cve_number,1/1,vendor=google"
     echo -e "Command is:\n$command\ny or n?"
     read answer
-    if [[ "$answer" == "y" ]]; then
+    if [ "$answer" == "y" ]; then
         bulletin_message
         $command
     fi
