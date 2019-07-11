@@ -1,6 +1,4 @@
-#!/bin/bash
-
-# echo "Start sourcing `dirname ${BASH_SOURCE[0]}`/`basename ${BASH_SOURCE[0]}`"
+#!/bin/zsh
 
 export MY_HOST_SYSTEM=`uname -a | cut -d " " -f 1 | tr A-Z a-z`
 
@@ -30,7 +28,7 @@ function _add_to_variable {
             fi
         fi
     done
-    if [ "$var_1" == "append" ]; then
+    if [[ "$var_1" == "append" ]]; then
         tmp_var=$tmp_var:$add
     else
         tmp_var=$add:$tmp_var
@@ -53,13 +51,13 @@ function _clean_variable_no_awk {
         local new=1
         for p in ${new_path}; do
             p=${p/%\//}         # remove the trailing /
-            if [ "$p" == "$path" ]; then
+            if [[ "$p" == "$path" ]]; then
                 new=0
                 break
             fi
         done
         if [ $new -eq 1 ]; then
-            if [ "$new_path" == "" ]; then
+            if [[ "$new_path" == "" ]]; then
                 new_path=$path
             else
                 new_path=${new_path}${IFS}${path}
@@ -91,7 +89,7 @@ function _clean_variable_with_awk {
 }
 
 function clean-variable {
-    if [ "`printenv $1`" == "" ]; then
+    if [[ "`printenv $1`" == "" ]]; then
         return 0;
     fi
     if [ -e /usr/bin/awk ]; then
@@ -100,41 +98,41 @@ function clean-variable {
         _clean_variable_no_awk "$@"
     fi
 }
-# 0: get all pre.bash except the ${CONFIG_ROOT_DIR}/bash/common/pre.bash
-# 1: get all *.bash except pre.bash and post.bash
-# 2: get all post.bash
-function _get_filtered_bash_list {
+# 0: get all pre.zsh except the ${CONFIG_ROOT_DIR}/zsh/common/pre.zsh
+# 1: get all *.zsh except pre.zsh and post.zsh
+# 2: get all post.zsh
+function _get_filtered_zsh_list {
     local search_dirs=(
-        "${CONFIG_ROOT_DIR}/bash/common"
-        "${CONFIG_ROOT_DIR}/bash/${MY_HOST_SYSTEM}"
-        "${CONFIG_PRIVATE_ROOT_DIR}/bash/common"
-        "${CONFIG_PRIVATE_ROOT_DIR}/bash/${MY_HOST_SYSTEM}"
+        "${CONFIG_ROOT_DIR}/env/common"
+        "${CONFIG_ROOT_DIR}/env/${MY_HOST_SYSTEM}"
+        "${CONFIG_PRIVATE_ROOT_DIR}/env/common"
+        "${CONFIG_PRIVATE_ROOT_DIR}/env/${MY_HOST_SYSTEM}"
     )
     local flist=""
     if [ $1 -eq 0 ]; then
         for dir in ${search_dirs[@]:1}; do
-            if [ -f "$dir/pre.bash" ]; then
-                flist=$flist:$dir/pre.bash
+            if [ -f "$dir/pre.zsh" ]; then
+                flist=$flist:$dir/pre.zsh
             fi
         done
     elif [ $1 -eq 2 ]; then
         for dir in ${search_dirs[@]}; do
-            if [ -f "$dir/post.bash" ]; then
-                flist=$flist:$dir/post.bash
+            if [ -f "$dir/post.zsh" ]; then
+                flist=$flist:$dir/post.zsh
             fi
         done
     elif [ $1 -eq 1 ]; then
         local filter_out_file=(
-            "pre.bash"
-            "post.bash"
-            "init.bash"
+            "pre.zsh"
+            "post.zsh"
+            "init.zsh"
         )
         for dir in ${search_dirs[@]}; do
-            for name in `ls $dir/*.bash 2>/dev/null` ; do
+            for name in `ls $dir/*.zsh 2>/dev/null` ; do
                 local base=`basename $name`
                 local in_black_list=0
                 for f in ${filter_out_file[@]}; do
-                    if [ "${base}" == "$f" ]; then
+                    if [[ "${base}" == "$f" ]]; then
                         in_black_list=1
                     fi
                 done
@@ -153,7 +151,7 @@ function check_time {
     local command="$@"
     local date_command="date +%s%3N"
     local time_lapsed_unit="ms"
-    if [ "$MY_HOST_SYSTEM" == "darwin" ]; then
+    if [[ "$MY_HOST_SYSTEM" == "darwin" ]]; then
         local gnu_date=/usr/local/opt/coreutils/libexec/gnubin/date
         if [ -x $gnu_date ]; then
             date_command="$gnu_date +%s%3N"
@@ -163,16 +161,16 @@ function check_time {
             time_lapsed_unit="seconds"
         fi
     fi
-    local pre_time=`$date_command`
+    local pre_time=`eval $date_command`
     eval $command
-    local post_time=`$date_command`
+    local post_time=`eval $date_command`
     ((time_took=post_time-pre_time))
     CHECK_COMMAND_TIME_MATRIX["$command"]="(${time_took}${time_lapsed_unit})"
 }
 
-function _source_bash_files {
-    local bash_files=`_get_filtered_bash_list $1`
-    for name in ${bash_files//:/ }; do
+function _source_zsh_files {
+    local zsh_files=`_get_filtered_zsh_list $1`
+    for name in ${zsh_files//:/ }; do
         check_time source $name
     done
 }
@@ -198,15 +196,15 @@ function source-if-exist {
     fi
 }
 
-alias source-pre-bashes='_source_bash_files 0'
-alias source-other-bashes='_source_bash_files 1'
-alias source-post-bashes='_source_bash_files 2'
-alias sync-bashrc='source ${CONFIG_ROOT_DIR}/bash/common/init.bash'
+alias source-pre-zshes='_source_zsh_files 0'
+alias source-other-zshes='_source_zsh_files 1'
+alias source-post-zshes='_source_zsh_files 2'
+alias sync-zshrc='source ${CONFIG_ROOT_DIR}/zsh/common/init.zsh'
 
-__bash_load_log=""
+__zsh_load_log=""
 function append-to-log {
-    __bash_load_log="${__bash_load_log}$@\n"
+    __zsh_load_log="${__zsh_load_log}$@\n"
 }
 function dump-log {
-    echo -e "$__bash_load_log"
+    echo -e "$__zsh_load_log"
 }

@@ -1,5 +1,5 @@
 function create-python-virtualenv {
-    if [ $# -lt 1 ] || ([ "$1" != "2" ] && [ "$1" != "3" ]); then
+    if [ $# -lt 1 ] || ([[ "$1" != "2" ]] && [[ "$1" != "3" ]]); then
         echo "Usage: create-python-virtualenv 2|3"
         return 1
     fi
@@ -28,7 +28,7 @@ function choose-python-virtualenv {
     if [ $choice -gt 3 ]; then
         echo -n "Both py2 and py3 are exist, input your choice(2/3): "
         read choice
-        if [ "$choice" != "2" ] && [ "$choice" != "3" ]; then
+        if [[ "$choice" != "2" ]] && [[ "$choice" != "3" ]]; then
             echo "Bad choice, do nothing, exit!"
             return 1
         fi

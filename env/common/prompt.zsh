@@ -177,12 +177,12 @@ function __test_source_git_prompt {
 }
 
 function __my_git_ps1 {
-    if [ "$SOURCED_GIT_PROMPT" == "no" ]; then
+    if [[ "$SOURCED_GIT_PROMPT" == "no" ]]; then
         __test_source_git_prompt
     fi
-    if [ "$SOURCED_GIT_PROMPT" != "not_found" ]; then
+    if [[ "$SOURCED_GIT_PROMPT" != "not_found" ]]; then
         local branch=`__git_ps1`
-        if [ "$branch" != "" ]; then
+        if [[ "$branch" != "" ]]; then
             branch=${branch:2:-1}
         fi
         echo "$branch"
@@ -198,7 +198,7 @@ function __prompt_command_simple() {
     local HII="\[\033[0;31m\]" #change this for letter colors
     local SI="\[\033[0;33m\]" #this is for the current directory
     local IN="\[\033[0m\]"
-    if [ "$SOURCED_GIT_PROMPT" == "no" ]; then
+    if [[ "$SOURCED_GIT_PROMPT" == "no" ]]; then
         __test_source_git_prompt
     fi
 
@@ -232,7 +232,7 @@ alias set-ps1-simple='export PROMPT_COMMAND=__prompt_command_simple'
 alias set-ps1-test='export PROMPT_COMMAND=__prompt_command_test'
 
 # Generate PS1 using PROMPT_COMMAND
-if [ "$TERM" == "xterm-256color" ] || [ "$TERM" == "rxvt-unicode" ]; then
+if [[ "$TERM" == "xterm-256color" ]] || [[ "$TERM" == "rxvt-unicode" ]]; then
     alias set_prompt_command='export PROMPT_COMMAND=__prompt_command_simple'
     alias __prompt_command='__prompt_command_simple'
 else # [ "$TERM" == "eterm-color" ]
