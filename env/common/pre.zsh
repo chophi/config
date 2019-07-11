@@ -145,7 +145,7 @@ function _get_filtered_zsh_list {
     echo $flist
 }
 
-typeset -A CHECK_COMMAND_TIME_MATRIX
+declare -A CHECK_COMMAND_TIME_MATRIX
 
 function check_time {
     local command="$@"
@@ -170,7 +170,7 @@ function check_time {
 
 function _source_zsh_files {
     local zsh_files=`_get_filtered_zsh_list $1`
-    for name in ${(z)zsh_files//:/ }; do
+    for name in ${zsh_files//:/ }; do
         check_time source $name
     done
 }
@@ -178,15 +178,15 @@ function _source_zsh_files {
 function check-command-time-matrix {
     local width=0
     local tmp_width
-    for key val in ${(kv)CHECK_COMMAND_TIME_MATRIX}; do
-        tmp_width=${#key}
+    for com in "${!CHECK_COMMAND_TIME_MATRIX[@]}"; do
+        tmp_width=${#com}
         ((tmp_width=tmp_width+5))
         if [ $width -lt $tmp_width ]; then
             width=$tmp_width
         fi
     done
-    for key val in ${(kv)CHECK_COMMAND_TIME_MATRIX}; do
-        printf "|%-${width}s| %-10s|\n" "$key" "$val"
+    for com in "${!CHECK_COMMAND_TIME_MATRIX[@]}"; do
+        printf "|%-${width}s| %-10s|\n" "$com" ${CHECK_COMMAND_TIME_MATRIX["$com"]}
     done
 }
 
